@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/Users/mmakinen/scop/build",
-  "command": "/usr/bin/clang++   -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -mmacosx-version-min=10.14 -o CMakeFiles/SFML.dir/main.cpp.o -c /Users/mmakinen/scop/main.cpp",
-  "file": "/Users/mmakinen/scop/main.cpp"
-}
-]
