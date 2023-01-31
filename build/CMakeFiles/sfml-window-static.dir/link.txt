@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsfml-window-static.a "CMakeFiles/sfml-window-static.dir/SFML-2.5.1/src/SFML/Window/Context.cpp.o" "CMakeFiles/sfml-window-static.dir/SFML-2.5.1/src/SFML/Window/GlContext.cpp.o"
+/usr/bin/ranlib libsfml-window-static.a

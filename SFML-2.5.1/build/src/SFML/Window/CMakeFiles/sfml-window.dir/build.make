@@ -660,60 +660,53 @@ sfml__window_OBJECTS = \
 # External object files for target sfml-window
 sfml__window_EXTERNAL_OBJECTS =
 
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/Clipboard.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/Context.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/Cursor.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/GlContext.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/GlResource.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/Joystick.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/JoystickManager.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/Keyboard.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/Mouse.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/Touch.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/Sensor.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/SensorManager.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/VideoMode.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/Window.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/WindowImpl.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/cpp_objc_conversion.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/cg_sf_conversion.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/CursorImpl.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/ClipboardImpl.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/InputImpl.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/HIDInputManager.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/HIDJoystickManager.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/JoystickImpl.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/NSImage+raw.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SensorImpl.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFApplication.m.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFApplicationDelegate.m.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFContext.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFKeyboardModifiersHelper.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFOpenGLView.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFOpenGLView+keyboard.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFOpenGLView+mouse.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFSilentResponder.m.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFWindow.m.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFWindowController.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFViewController.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/VideoModeImpl.cpp.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/WindowImplCocoa.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/AutoreleasePoolWrapper.mm.o
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/build.make
-lib/libsfml-window.2.5.1.dylib: lib/libsfml-system.2.5.1.dylib
-lib/libsfml-window.2.5.1.dylib: src/SFML/Window/CMakeFiles/sfml-window.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/mmakinen/scop/SFML-2.5.1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Linking CXX shared library ../../../lib/libsfml-window.dylib"
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/Clipboard.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/Context.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/Cursor.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/GlContext.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/GlResource.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/Joystick.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/JoystickManager.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/Keyboard.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/Mouse.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/Touch.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/Sensor.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/SensorManager.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/VideoMode.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/Window.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/WindowImpl.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/cpp_objc_conversion.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/cg_sf_conversion.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/CursorImpl.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/ClipboardImpl.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/InputImpl.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/HIDInputManager.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/HIDJoystickManager.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/JoystickImpl.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/NSImage+raw.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SensorImpl.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFApplication.m.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFApplicationDelegate.m.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFContext.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFKeyboardModifiersHelper.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFOpenGLView.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFOpenGLView+keyboard.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFOpenGLView+mouse.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFSilentResponder.m.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFWindow.m.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFWindowController.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/SFViewController.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/VideoModeImpl.cpp.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/WindowImplCocoa.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/OSX/AutoreleasePoolWrapper.mm.o
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/build.make
+lib/libsfml-window-s.a: src/SFML/Window/CMakeFiles/sfml-window.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/mmakinen/scop/SFML-2.5.1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Linking CXX static library ../../../lib/libsfml-window-s.a"
+	cd /Users/mmakinen/scop/SFML-2.5.1/build/src/SFML/Window && $(CMAKE_COMMAND) -P CMakeFiles/sfml-window.dir/cmake_clean_target.cmake
 	cd /Users/mmakinen/scop/SFML-2.5.1/build/src/SFML/Window && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sfml-window.dir/link.txt --verbose=$(VERBOSE)
-	cd /Users/mmakinen/scop/SFML-2.5.1/build/src/SFML/Window && $(CMAKE_COMMAND) -E cmake_symlink_library ../../../lib/libsfml-window.2.5.1.dylib ../../../lib/libsfml-window.2.5.dylib ../../../lib/libsfml-window.dylib
-
-lib/libsfml-window.2.5.dylib: lib/libsfml-window.2.5.1.dylib
-	@$(CMAKE_COMMAND) -E touch_nocreate lib/libsfml-window.2.5.dylib
-
-lib/libsfml-window.dylib: lib/libsfml-window.2.5.1.dylib
-	@$(CMAKE_COMMAND) -E touch_nocreate lib/libsfml-window.dylib
 
 # Rule to build all files generated by this target.
-src/SFML/Window/CMakeFiles/sfml-window.dir/build: lib/libsfml-window.dylib
+src/SFML/Window/CMakeFiles/sfml-window.dir/build: lib/libsfml-window-s.a
 .PHONY : src/SFML/Window/CMakeFiles/sfml-window.dir/build
 
 src/SFML/Window/CMakeFiles/sfml-window.dir/clean:

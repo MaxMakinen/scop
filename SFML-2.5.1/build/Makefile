@@ -87,7 +87,7 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target list_install_components
 list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\" \"bin\" \"devel\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\" \"devel\" \"doc\" \"examples\""
 .PHONY : list_install_components
 
 # Special rule for the target list_install_components
@@ -226,6 +226,175 @@ sfml-audio/fast:
 	$(MAKE) $(MAKESILENT) -f src/SFML/Audio/CMakeFiles/sfml-audio.dir/build.make src/SFML/Audio/CMakeFiles/sfml-audio.dir/build
 .PHONY : sfml-audio/fast
 
+#=============================================================================
+# Target rules for targets named ftp
+
+# Build rule for target.
+ftp: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ftp
+.PHONY : ftp
+
+# fast build rule for target.
+ftp/fast:
+	$(MAKE) $(MAKESILENT) -f examples/ftp/CMakeFiles/ftp.dir/build.make examples/ftp/CMakeFiles/ftp.dir/build
+.PHONY : ftp/fast
+
+#=============================================================================
+# Target rules for targets named sockets
+
+# Build rule for target.
+sockets: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sockets
+.PHONY : sockets
+
+# fast build rule for target.
+sockets/fast:
+	$(MAKE) $(MAKESILENT) -f examples/sockets/CMakeFiles/sockets.dir/build.make examples/sockets/CMakeFiles/sockets.dir/build
+.PHONY : sockets/fast
+
+#=============================================================================
+# Target rules for targets named voip
+
+# Build rule for target.
+voip: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 voip
+.PHONY : voip
+
+# fast build rule for target.
+voip/fast:
+	$(MAKE) $(MAKESILENT) -f examples/voip/CMakeFiles/voip.dir/build.make examples/voip/CMakeFiles/voip.dir/build
+.PHONY : voip/fast
+
+#=============================================================================
+# Target rules for targets named sound
+
+# Build rule for target.
+sound: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sound
+.PHONY : sound
+
+# fast build rule for target.
+sound/fast:
+	$(MAKE) $(MAKESILENT) -f examples/sound/CMakeFiles/sound.dir/build.make examples/sound/CMakeFiles/sound.dir/build
+.PHONY : sound/fast
+
+#=============================================================================
+# Target rules for targets named sound-capture
+
+# Build rule for target.
+sound-capture: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sound-capture
+.PHONY : sound-capture
+
+# fast build rule for target.
+sound-capture/fast:
+	$(MAKE) $(MAKESILENT) -f examples/sound_capture/CMakeFiles/sound-capture.dir/build.make examples/sound_capture/CMakeFiles/sound-capture.dir/build
+.PHONY : sound-capture/fast
+
+#=============================================================================
+# Target rules for targets named window
+
+# Build rule for target.
+window: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 window
+.PHONY : window
+
+# fast build rule for target.
+window/fast:
+	$(MAKE) $(MAKESILENT) -f examples/window/CMakeFiles/window.dir/build.make examples/window/CMakeFiles/window.dir/build
+.PHONY : window/fast
+
+#=============================================================================
+# Target rules for targets named joystick
+
+# Build rule for target.
+joystick: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 joystick
+.PHONY : joystick
+
+# fast build rule for target.
+joystick/fast:
+	$(MAKE) $(MAKESILENT) -f examples/joystick/CMakeFiles/joystick.dir/build.make examples/joystick/CMakeFiles/joystick.dir/build
+.PHONY : joystick/fast
+
+#=============================================================================
+# Target rules for targets named opengl
+
+# Build rule for target.
+opengl: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 opengl
+.PHONY : opengl
+
+# fast build rule for target.
+opengl/fast:
+	$(MAKE) $(MAKESILENT) -f examples/opengl/CMakeFiles/opengl.dir/build.make examples/opengl/CMakeFiles/opengl.dir/build
+.PHONY : opengl/fast
+
+#=============================================================================
+# Target rules for targets named shader
+
+# Build rule for target.
+shader: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 shader
+.PHONY : shader
+
+# fast build rule for target.
+shader/fast:
+	$(MAKE) $(MAKESILENT) -f examples/shader/CMakeFiles/shader.dir/build.make examples/shader/CMakeFiles/shader.dir/build
+.PHONY : shader/fast
+
+#=============================================================================
+# Target rules for targets named island
+
+# Build rule for target.
+island: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 island
+.PHONY : island
+
+# fast build rule for target.
+island/fast:
+	$(MAKE) $(MAKESILENT) -f examples/island/CMakeFiles/island.dir/build.make examples/island/CMakeFiles/island.dir/build
+.PHONY : island/fast
+
+#=============================================================================
+# Target rules for targets named cocoa
+
+# Build rule for target.
+cocoa: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cocoa
+.PHONY : cocoa
+
+# fast build rule for target.
+cocoa/fast:
+	$(MAKE) $(MAKESILENT) -f examples/cocoa/CMakeFiles/cocoa.dir/build.make examples/cocoa/CMakeFiles/cocoa.dir/build
+.PHONY : cocoa/fast
+
+#=============================================================================
+# Target rules for targets named pong
+
+# Build rule for target.
+pong: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pong
+.PHONY : pong
+
+# fast build rule for target.
+pong/fast:
+	$(MAKE) $(MAKESILENT) -f examples/pong/CMakeFiles/pong.dir/build.make examples/pong/CMakeFiles/pong.dir/build
+.PHONY : pong/fast
+
+#=============================================================================
+# Target rules for targets named doc
+
+# Build rule for target.
+doc: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 doc
+.PHONY : doc
+
+# fast build rule for target.
+doc/fast:
+	$(MAKE) $(MAKESILENT) -f doc/CMakeFiles/doc.dir/build.make doc/CMakeFiles/doc.dir/build
+.PHONY : doc/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -238,11 +407,24 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... doc"
+	@echo "... cocoa"
+	@echo "... ftp"
+	@echo "... island"
+	@echo "... joystick"
+	@echo "... opengl"
+	@echo "... pong"
 	@echo "... sfml-audio"
 	@echo "... sfml-graphics"
 	@echo "... sfml-network"
 	@echo "... sfml-system"
 	@echo "... sfml-window"
+	@echo "... shader"
+	@echo "... sockets"
+	@echo "... sound"
+	@echo "... sound-capture"
+	@echo "... voip"
+	@echo "... window"
 .PHONY : help
 
 

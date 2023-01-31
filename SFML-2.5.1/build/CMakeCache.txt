@@ -16,7 +16,7 @@
 
 //TRUE to build SFML as shared libraries, FALSE to build it as
 // static libraries
-BUILD_SHARED_LIBS:BOOL=TRUE
+BUILD_SHARED_LIBS:BOOL=OFF
 
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=CMAKE_ADDR2LINE-NOTFOUND
@@ -213,6 +213,12 @@ CMAKE_STRIP:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/Xcode
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Dot tool for use with Doxygen
+DOXYGEN_DOT_EXECUTABLE:FILEPATH=DOXYGEN_DOT_EXECUTABLE-NOTFOUND
+
+//Doxygen documentation generation tool (https://www.doxygen.nl)
+DOXYGEN_EXECUTABLE:FILEPATH=/Users/mmakinen/.brew/bin/doxygen
+
 //Path to a file.
 FLAC_INCLUDE_DIR:PATH=/Users/mmakinen/scop/SFML-2.5.1/extlibs/headers
 
@@ -227,6 +233,9 @@ FREETYPE_INCLUDE_DIR_ft2build:PATH=/Users/mmakinen/scop/SFML-2.5.1/extlibs/heade
 
 //Path to a library.
 FREETYPE_LIBRARY:FILEPATH=/Users/mmakinen/scop/SFML-2.5.1/extlibs/libs-osx/Frameworks/freetype.framework
+
+//Path to a program.
+IBTOOL:FILEPATH=/usr/bin/ibtool
 
 //Path to a file.
 OGG_INCLUDE_DIR:PATH=/Users/mmakinen/scop/SFML-2.5.1/extlibs/headers
@@ -253,23 +262,23 @@ OPENGL_glu_LIBRARY:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms
 SFML_BINARY_DIR:STATIC=/Users/mmakinen/scop/SFML-2.5.1/build
 
 //TRUE to build SFML's Audio module.
-SFML_BUILD_AUDIO:BOOL=TRUE
+SFML_BUILD_AUDIO:BOOL=ON
 
 //TRUE to generate the API documentation, FALSE to ignore it
-SFML_BUILD_DOC:BOOL=FALSE
+SFML_BUILD_DOC:BOOL=ON
 
 //TRUE to build the SFML examples, FALSE to ignore them
-SFML_BUILD_EXAMPLES:BOOL=FALSE
+SFML_BUILD_EXAMPLES:BOOL=ON
 
 //TRUE to build SFML as frameworks libraries (release only), FALSE
 // to build according to BUILD_SHARED_LIBS
-SFML_BUILD_FRAMEWORKS:BOOL=FALSE
+SFML_BUILD_FRAMEWORKS:BOOL=OFF
 
 //TRUE to build SFML's Graphics module.
-SFML_BUILD_GRAPHICS:BOOL=TRUE
+SFML_BUILD_GRAPHICS:BOOL=ON
 
 //TRUE to build SFML's Network module.
-SFML_BUILD_NETWORK:BOOL=TRUE
+SFML_BUILD_NETWORK:BOOL=ON
 
 //TRUE to build SFML's Window module. This setting is ignored,
 // if the graphics module is built.
@@ -277,7 +286,7 @@ SFML_BUILD_WINDOW:BOOL=TRUE
 
 //External frameworks (FLAC, Freetype, Vorbis, ...) installation
 // directory
-SFML_DEPENDENCIES_INSTALL_PREFIX:PATH=/Library/Frameworks
+SFML_DEPENDENCIES_INSTALL_PREFIX:PATH=/usr/local/share/SFML
 
 //TRUE to automatically install pkg-config files so other projects
 // can find SFML
@@ -302,7 +311,7 @@ SFML_OPENGL_ES:BOOL=0
 SFML_SOURCE_DIR:STATIC=/Users/mmakinen/scop/SFML-2.5.1
 
 //TRUE to use system dependencies, FALSE to use the bundled ones.
-SFML_USE_SYSTEM_DEPS:BOOL=FALSE
+SFML_USE_SYSTEM_DEPS:BOOL=ON
 
 //Path to a library.
 VORBISENC_LIBRARY:FILEPATH=/Users/mmakinen/scop/SFML-2.5.1/extlibs/libs-osx/Frameworks/vorbisenc.framework
@@ -329,13 +338,15 @@ sfml-network_LIB_DEPENDS:STATIC=general;-stdlib=libc++;general;sfml-system;
 sfml-system_LIB_DEPENDS:STATIC=general;-stdlib=libc++;general;pthread;
 
 //Dependencies for the target
-sfml-window_LIB_DEPENDS:STATIC=general;-stdlib=libc++;general;sfml-system;general;-framework Foundation;general;-framework AppKit;general;-framework IOKit;general;-framework Carbon;
+sfml-window_LIB_DEPENDS:STATIC=general;-stdlib=libc++;general;sfml-system;general;-ObjC;general;-framework Foundation;general;-framework AppKit;general;-framework IOKit;general;-framework Carbon;
 
 
 ########################
 # INTERNAL cache entries
 ########################
 
+//MODIFIED property for variable: BUILD_SHARED_LIBS
+BUILD_SHARED_LIBS-MODIFIED:INTERNAL=ON
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -430,7 +441,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=7
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=21
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -473,6 +484,12 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: DOXYGEN_DOT_EXECUTABLE
+DOXYGEN_DOT_EXECUTABLE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: DOXYGEN_EXECUTABLE
+DOXYGEN_EXECUTABLE-ADVANCED:INTERNAL=1
+//Details about finding Doxygen
+FIND_PACKAGE_MESSAGE_DETAILS_Doxygen:INTERNAL=[/Users/mmakinen/.brew/bin/doxygen][cfound components: doxygen missing components: dot][v1.9.6()]
 //Details about finding FLAC
 FIND_PACKAGE_MESSAGE_DETAILS_FLAC:INTERNAL=[/Users/mmakinen/scop/SFML-2.5.1/extlibs/libs-osx/Frameworks/FLAC.framework][/Users/mmakinen/scop/SFML-2.5.1/extlibs/headers][v()]
 //Details about finding OpenAL
@@ -481,6 +498,8 @@ FIND_PACKAGE_MESSAGE_DETAILS_OpenAL:INTERNAL=[/Users/mmakinen/scop/SFML-2.5.1/ex
 FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/OpenGL.framework][/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/OpenGL.framework][c ][v()]
 //Details about finding VORBIS
 FIND_PACKAGE_MESSAGE_DETAILS_VORBIS:INTERNAL=[/Users/mmakinen/scop/SFML-2.5.1/extlibs/libs-osx/Frameworks/vorbisenc.framework;/Users/mmakinen/scop/SFML-2.5.1/extlibs/libs-osx/Frameworks/vorbisfile.framework;/Users/mmakinen/scop/SFML-2.5.1/extlibs/libs-osx/Frameworks/vorbis.framework;/Users/mmakinen/scop/SFML-2.5.1/extlibs/libs-osx/Frameworks/ogg.framework][/Users/mmakinen/scop/SFML-2.5.1/extlibs/headers][/Users/mmakinen/scop/SFML-2.5.1/extlibs/headers][v()]
+//Details about finding Vorbis
+FIND_PACKAGE_MESSAGE_DETAILS_Vorbis:INTERNAL=[/Users/mmakinen/scop/SFML-2.5.1/extlibs/libs-osx/Frameworks/vorbisenc.framework;/Users/mmakinen/scop/SFML-2.5.1/extlibs/libs-osx/Frameworks/vorbisfile.framework;/Users/mmakinen/scop/SFML-2.5.1/extlibs/libs-osx/Frameworks/vorbis.framework;/Users/mmakinen/scop/SFML-2.5.1/extlibs/libs-osx/Frameworks/ogg.framework][/Users/mmakinen/scop/SFML-2.5.1/extlibs/headers][/Users/mmakinen/scop/SFML-2.5.1/extlibs/headers][v()]
 //ADVANCED property for variable: FLAC_INCLUDE_DIR
 FLAC_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: FLAC_LIBRARY
@@ -505,6 +524,22 @@ OPENGL_INCLUDE_DIR-ADVANCED:INTERNAL=1
 OPENGL_gl_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENGL_glu_LIBRARY
 OPENGL_glu_LIBRARY-ADVANCED:INTERNAL=1
+//MODIFIED property for variable: SFML_BUILD_AUDIO
+SFML_BUILD_AUDIO-MODIFIED:INTERNAL=ON
+//MODIFIED property for variable: SFML_BUILD_DOC
+SFML_BUILD_DOC-MODIFIED:INTERNAL=ON
+//MODIFIED property for variable: SFML_BUILD_EXAMPLES
+SFML_BUILD_EXAMPLES-MODIFIED:INTERNAL=ON
+//MODIFIED property for variable: SFML_BUILD_FRAMEWORKS
+SFML_BUILD_FRAMEWORKS-MODIFIED:INTERNAL=ON
+//MODIFIED property for variable: SFML_BUILD_GRAPHICS
+SFML_BUILD_GRAPHICS-MODIFIED:INTERNAL=ON
+//MODIFIED property for variable: SFML_BUILD_NETWORK
+SFML_BUILD_NETWORK-MODIFIED:INTERNAL=ON
+//MODIFIED property for variable: SFML_DEPENDENCIES_INSTALL_PREFIX
+SFML_DEPENDENCIES_INSTALL_PREFIX-MODIFIED:INTERNAL=ON
+//MODIFIED property for variable: SFML_USE_SYSTEM_DEPS
+SFML_USE_SYSTEM_DEPS-MODIFIED:INTERNAL=ON
 //ADVANCED property for variable: VORBISENC_LIBRARY
 VORBISENC_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: VORBISFILE_LIBRARY

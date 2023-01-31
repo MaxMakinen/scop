@@ -1,0 +1,4 @@
+/Users/mmakinen/scop/build/CMakeFiles/sfml-window-static.dir
+/Users/mmakinen/scop/build/CMakeFiles/scop.dir
+/Users/mmakinen/scop/build/CMakeFiles/edit_cache.dir
+/Users/mmakinen/scop/build/CMakeFiles/rebuild_cache.dir
