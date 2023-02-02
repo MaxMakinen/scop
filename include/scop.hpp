@@ -13,7 +13,11 @@
 #ifndef SCOP_HPP
 # define SCOP_HPP
 
-# include "../SFML-2.5.1/include/SFML/Config.hpp"
-# include "../SFML-2.5.1/include/SFML/System.hpp"
-# include "../SFML-2.5.1/include/SFML/Window.hpp"
+# define GLEW_STATIC
+
+# include <GL/glew.h>
+# include <SFML/System.hpp>
+# include <SFML/Window.hpp>
+# include <SFML/OpenGL.hpp>
+
 #endif

@@ -8,11 +8,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/mmakinen/scop/src/main.cpp" "CMakeFiles/scop.dir/src/main.cpp.o" "gcc" "CMakeFiles/scop.dir/src/main.cpp.o.d"
+  "/home/max/scop/src/main.cpp" "CMakeFiles/scop.dir/src/main.cpp.o" "gcc" "CMakeFiles/scop.dir/src/main.cpp.o.d"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
+  "/home/max/scop/build/dependencies/SFML-2.5.1/src/SFML/Window/CMakeFiles/sfml-window.dir/DependInfo.cmake"
+  "/home/max/scop/build/dependencies/SFML-2.5.1/src/SFML/System/CMakeFiles/sfml-system.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.
