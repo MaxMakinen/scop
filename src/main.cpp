@@ -13,7 +13,8 @@ int main()
     window.setActive(true);
 
 	// initialize GLEW after creating a valid OpenGL rendering context. Automatically done by SFML in previous command
-	glewInit();
+	if(glewInit() != GLEW_OK)
+		std::cout << "Error!: glewInit not ok" << std::endl;
 
     // load resources, initialize the OpenGL states, ...
 
@@ -33,9 +34,6 @@ int main()
     bool running = true;
     while (running)
     {
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		glDrawArrays(GL_TRIANGLES, 0, 3);
         // handle events
         sf::Event event;
         while (window.pollEvent(event))
@@ -56,6 +54,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // draw...
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
         // end the current frame (internally swaps the front and back buffers)
         window.display();
