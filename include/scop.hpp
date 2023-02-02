@@ -13,7 +13,6 @@
 #ifndef SCOP_HPP
 # define SCOP_HPP
 
-# define GLEW_STATIC
 
 # include <GL/glew.h>
 # include <SFML/System.hpp>

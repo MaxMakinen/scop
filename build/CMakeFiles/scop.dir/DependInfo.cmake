@@ -1,20 +1,22 @@
-
-# Consider dependencies only in project.
-set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
-
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
+  "CXX"
   )
+# The set of files for implicit dependencies of each language:
+set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/max/scop/src/main.cpp" "/home/max/scop/build/CMakeFiles/scop.dir/src/main.cpp.o"
+  )
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
-# The set of dependency files which are needed:
-set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/max/scop/src/main.cpp" "CMakeFiles/scop.dir/src/main.cpp.o" "gcc" "CMakeFiles/scop.dir/src/main.cpp.o.d"
+# The include file search paths:
+set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  ".././dependencies/SFML-2.5.1/include"
+  ".././dependencies/glew-2.1.0/include"
+  "../include"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/max/scop/build/dependencies/SFML-2.5.1/src/SFML/Window/CMakeFiles/sfml-window.dir/DependInfo.cmake"
-  "/home/max/scop/build/dependencies/SFML-2.5.1/src/SFML/System/CMakeFiles/sfml-system.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.
