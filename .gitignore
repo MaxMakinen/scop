@@ -33,10 +33,7 @@
 
 # Build folders
 build/
-<<<<<<< HEAD
 **/build/
-=======
->>>>>>> main
 cmake-build-*/
 
 # Cache/IDE folders

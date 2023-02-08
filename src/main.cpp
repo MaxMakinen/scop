@@ -11,11 +11,7 @@ struct	ShaderProgramSource
 	std::string FragmentSource;
 };
 
-<<<<<<< HEAD
 static ShaderProgramSource ParseShader(const std::string &filepath)
-=======
-static void ParseShader(const std::string &filepath)
->>>>>>> main
 {
 	std::ifstream stream(filepath);
 
@@ -32,7 +28,6 @@ static void ParseShader(const std::string &filepath)
 		if (line.find("#shader") != std::string::npos)
 		{
 			if (line.find("vertex") != std::string::npos)
-<<<<<<< HEAD
 				type = ShaderType::VERTEX;
 			else if (line.find("fragment") != std::string::npos)
 				type = ShaderType::FRAGMENT;
@@ -43,13 +38,6 @@ static void ParseShader(const std::string &filepath)
 		}
 	}
 	return { ss[0].str(), ss[1].str()};
-=======
-				//set mode to vertex
-			else if (line.find("fragment") != std::string::npos)
-				//set mode to fragment
-		}
-	}
->>>>>>> main
 }
 
 static unsigned int CompileShader(unsigned int type, const std::string &source)
@@ -63,11 +51,7 @@ static unsigned int CompileShader(unsigned int type, const std::string &source)
 	glGetShaderiv(id, GL_COMPILE_STATUS, &result);
 	if (result == GL_FALSE)
 	{
-<<<<<<< HEAD
-		int length = 0;
-=======
 		int length;
->>>>>>> main
 		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
 		char message[length];
 		glGetShaderInfoLog(id, length, &length, message);
@@ -112,29 +96,36 @@ int main()
 
     // load resources, initialize the OpenGL states, ...
 
-	float positions[6] = {
-		-0.5, -0.5f,
-		0.0, 0.5f,
-		0.5, -0.5f,
+	float positions[] = {
+		-0.5f, -0.5f,
+		 0.5f, -0.5f,
+		 0.5f,  0.5f,
+		-0.5f,  0.5f,
+	};
+
+	unsigned int	indices[] = {
+		0, 1, 2,
+		2, 3, 0
 	};
 
 	unsigned int buffer;
 	glGenBuffers(1, &buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
 
-<<<<<<< HEAD
+	unsigned int ibo;
+	glGenBuffers(1, &ibo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+
+
+
 	ShaderProgramSource source = ParseShader("../resources/shaders/basic.shader");
 	unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
-	std::cout << source.VertexSource << std::endl;
-	std::cout << source.FragmentSource << std::endl;
-	//unsigned int shader = CreateShader(vertexShader, fragmentShader);
-=======
-	unsigned int shader = CreateShader(vertexShader, fragmentShader);
->>>>>>> main
+
 	glUseProgram(shader);
 
     // run the main loop
@@ -146,7 +137,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // draw...
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
         // end the current frame (internally swaps the front and back buffers)
         window.display();
