@@ -17,6 +17,7 @@ endmacro()
 
 # determine whether to create a debug or release build
 sfml_set_option(CMAKE_BUILD_TYPE Release STRING "Choose the type of build (Debug or Release)")
+set(CMAKE_BUILD_TYPE Debug)
 
 # Suppress Cygwin legacy warning
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
