@@ -30,8 +30,13 @@ INCLUDES =		-I $(INC_DIR)/ -I ./SFML-2.5.1/include/SFML/
 OBJECTS =		$(addprefix $(OBJ_DIR)/, $(SRCS))
 
 
-
-all: $(NAME)
+all:
+	make -C dependencies/glew-2.1.0/auto
+	make -C dependencies/glew-2.1.0
+	cmake -S dependencies/SFML-2.5.1 -B dependencies/SFML-2.5.1/build
+	cmake -S . -B build
+	make -C build/
+#all: $(NAME)
 
 $(OBJ_DIR)/%.opp: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 	$(CC) -c $(CFLAGS) -o $@ $< $(INCLUDES)
