@@ -122,6 +122,8 @@ int main()
     // activate the window
     window.setActive(true);
 
+	window.setFramerateLimit(60);
+
 	// initialize GLEW after creating a valid OpenGL rendering context. Automatically done by SFML in previous command
 	if(glewInit() != GLEW_OK)
 		std::cout << "Error!: glewInit not ok" << std::endl;
@@ -143,7 +145,7 @@ int main()
 	unsigned int buffer;
 	GLCall(glGenBuffers(1, &buffer));
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
-	GLCall(glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
+	GLCall(glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
 
 	GLCall(glEnableVertexAttribArray(0));
 	GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
@@ -160,8 +162,15 @@ int main()
 
 	GLCall(glUseProgram(shader));
 
+	int	location;
+	GLCall(location = glGetUniformLocation(shader, "u_Color"));
+	ASSERT(location != -1);
+	GLCall(glUniform4f(location, 0.8f, 0.3f, 0.8f, 1.0f));
+
     // run the main loop
     bool running = true;
+	float r = 0.0f;
+	float increment = 0.05f;
     while (running)
     {
 
@@ -169,11 +178,15 @@ int main()
     	GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 
         // draw...
-		//GLClearError(); // Clear the Error messages so that we dont find anything old.
-		//GLCall(glDrawElements(GL_TRIANGLES, 6, GL_INT, nullptr)); // GL_INT invalid input. All arrays MUST be unsigned int.
-		GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-		//ASSERT(GLLogCall()); // Print any and all Error messages that occured sinde GLClearError();
+		GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
 
+		GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+
+		if (r > 1.0f)
+			increment = -0.05f;
+		else if (r < 0.0f)
+			increment = 0.05f;
+		r += increment;
         // end the current frame (internally swaps the front and back buffers)
         window.display();
 
