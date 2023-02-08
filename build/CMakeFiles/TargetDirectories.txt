@@ -1,3 +1,0 @@
-/home/max/scop/build/CMakeFiles/scop.dir
-/home/max/scop/build/CMakeFiles/edit_cache.dir
-/home/max/scop/build/CMakeFiles/rebuild_cache.dir
