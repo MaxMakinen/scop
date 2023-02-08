@@ -17,6 +17,7 @@ static void ParseShader(const std::string &filepath)
 
 	std::string line;
 	std::stringstream ss[2];
+	ShaderType type = ShaderType::NONE;
 	while (getline(stream, line))
 	{
 		if (line.find("#shader") != std::string::npos)
