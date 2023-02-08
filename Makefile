@@ -34,6 +34,7 @@ all:
 	make -C dependencies/glew-2.1.0/auto
 	make -C dependencies/glew-2.1.0
 	cmake -S dependencies/SFML-2.5.1 -B dependencies/SFML-2.5.1/build
+	make -C dependencies/SFML-2.5.1 -B dependencies/SFML-2.5.1/build
 	cmake -S . -B build
 	make -C build/
 #all: $(NAME)

@@ -37,7 +37,7 @@ static ShaderProgramSource ParseShader(const std::string &filepath)
 			ss[(int)type] << line << "\n";
 		}
 	}
-	return { ss[0].str(), ss[2].str()};
+	return { ss[0].str(), ss[1].str()};
 }
 
 static unsigned int CompileShader(unsigned int type, const std::string &source)
@@ -111,11 +111,11 @@ int main()
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
 
 	ShaderProgramSource source = ParseShader("../resources/shaders/basic.shader");
-	//unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
+	unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
 	std::cout << source.VertexSource << std::endl;
 	std::cout << source.FragmentSource << std::endl;
 	//unsigned int shader = CreateShader(vertexShader, fragmentShader);
-	//glUseProgram(shader);
+	glUseProgram(shader);
 
     // run the main loop
     bool running = true;
@@ -154,7 +154,7 @@ int main()
     }
 
     // release resources...
-	//glDeleteProgram(shader);
+	glDeleteProgram(shader);
 	window.setActive(false);
 
     return (0);
