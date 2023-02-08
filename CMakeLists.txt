@@ -32,8 +32,8 @@ target_link_directories(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} 
-	sfml-window-s-d
-	sfml-system-s-d
+	sfml-window-s
+	sfml-system-s
 	GLEW
 	GL
 	X11
