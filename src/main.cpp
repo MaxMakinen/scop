@@ -3,7 +3,20 @@
 #include <fstream>
 #include <sstream>
 
-#include "../include/scop.hpp"
+#include "scop.hpp"
+
+static void	GLClearError()
+{
+	while(glGetError() != GL_NO_ERROR); // GL_NO_ERROR guaranteed to be 0. so could be !glGetError()
+}
+
+static void	GLCheckError()
+{
+	while(GLenum error = glGetError())
+	{
+		std::cout << "[OpenGL Error] (" << error << ")" << std::endl;
+	}
+}
 
 struct	ShaderProgramSource
 {
@@ -137,7 +150,10 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // draw...
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		GLClearError(); // Clear the Error messages so that we dont find anything old.
+		glDrawElements(GL_TRIANGLES, 6, GL_INT, nullptr); // GL_INT invalid input. All arrays MUST be unsigned int.
+//		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		GLCheckError(); // Print any and all Error messages that occured sinde GLClearError();
 
         // end the current frame (internally swaps the front and back buffers)
         window.display();
