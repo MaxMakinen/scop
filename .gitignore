@@ -41,3 +41,5 @@ cmake-build-*/
 .vscode/
 .idea/
 .vs/
+
+dependencies/glew-2.1.0/auto/registry
