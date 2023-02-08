@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.18.1)
 project(scop)
 
+set(GCC_COVERAGE_COMPILE_FLAGS "-g")
+set(GCC_COVERAGE_LINK_FLAGS "-g")
+
 # Set SFML directories
 set(GLEW_ROOT "./dependencies/glew-2.1.0")
 set(SFML_ROOT "./dependencies/SFML-2.5.1")
@@ -9,6 +12,8 @@ set(SFML_SRC_DIR "${SFML_ROOT}/src")
 
 # Add executable target
 add_executable(${PROJECT_NAME}  src/main.cpp)
+
+set(CMAKE_BUILD_TYPE Debug)
 
 # add_subdirectory(dependencies/SFML-2.5.1)
 
