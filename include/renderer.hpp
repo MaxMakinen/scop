@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scop.hpp                                           :+:      :+:    :+:   */
+/*   renderer.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmakinen <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/31 15:09:52 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/01/31 15:10:13 by mmakinen         ###   ########.fr       */
+/*   Created: 2023/02/09 12:01:07 by mmakinen          #+#    #+#             */
+/*   Updated: 2023/02/09 12:01:10 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SCOP_HPP
-# define SCOP_HPP
 
+#ifndef RENDERER_HPP
+# define RENDERER_HPP
 
 # include <GL/glew.h>
-# include <SFML/System.hpp>
-# include <SFML/Window.hpp>
-# include <SFML/OpenGL.hpp>
 
 # include "error_handling.hpp"
 

@@ -9,9 +9,18 @@ set(GLEW_ROOT "./dependencies/glew-2.1.0")
 set(SFML_ROOT "./dependencies/SFML-2.5.1")
 set(SFML_INCLUDE_DIR "${SFML_ROOT}/include")
 set(SFML_SRC_DIR "${SFML_ROOT}/src")
+set(CMAKE_CURRENT_SOURCE_DIR "./src")
 
 # Add executable target
-add_executable(${PROJECT_NAME}  src/main.cpp)
+add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+
+target_sources(${PROJECT_NAME} 
+	PRIVATE "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/error_handling.cpp>"
+	PRIVATE "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/index_buffer.cpp>"
+	PRIVATE "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/vertex_buffer.cpp>"
+	PRIVATE "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/renderer.cpp>"
+	PRIVATE "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/vertex_array.cpp>"
+)
 
 set(CMAKE_BUILD_TYPE Debug)
 

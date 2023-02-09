@@ -1,35 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 12:01:46 by mmakinen          #+#    #+#             */
+/*   Updated: 2023/02/09 12:01:48 by mmakinen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <signal.h>
 
 #include "scop.hpp"
-#ifdef SIGTRAP
-//# define ASSERT(x) if (!(x)) __builtin_trap()
-# define ASSERT(x) if (!(x)) raise(SIGTRAP)
-#else
-# define ASSERT(x) if (!(x)) raise(SIGABRT)
-#endif
-#define GLCall(x) do { GLClearError();\
-	x;\
-	ASSERT(GLLogCall(#x, __FILE__, __LINE__)); } while (0)
-
-static void	GLClearError()
-{
-	while(glGetError() != GL_NO_ERROR); // GL_NO_ERROR guaranteed to be 0. so could be !glGetError()
-}
-
-static bool	GLLogCall(const char *function, const char *file, int line)
-{
-	while(GLenum error = glGetError())
-	{
-		std::cout << "[OpenGL Error] (" << error << "): " 
-		<< function << " " << file << ":" << line << std::endl;
-		return (false);
-	}
-	return (true);
-}
+#include "renderer.hpp"
+#include "error_handling.hpp"
+#include "vertex_buffer.hpp"
+#include "index_buffer.hpp"
+#include "vertex_array.hpp"
+#include "vertex_buffer_layout.hpp"
 
 struct	ShaderProgramSource
 {
@@ -142,19 +134,40 @@ int main()
 		2, 3, 0
 	};
 
+	/*
+	unsigned int	vao;
+	GLCall(glGenVertexArrays(1, &vao));
+	GLCall(glBindVertexArray(vao));
+	*/
+
+	vertex_array va;
+
+	vertex_buffer vb(positions, 4 * 2 * sizeof(float));
+
+	vertex_buffer_layout layout;
+	layout.push<float>(2);
+	va.add_buffer(vb, layout);
+
+	index_buffer ib(indices, 6);
+
+	/*
 	unsigned int buffer;
 	GLCall(glGenBuffers(1, &buffer));
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
 	GLCall(glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
+	*/
 
+	/*
 	GLCall(glEnableVertexAttribArray(0));
 	GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
+	*/
 
+	/*
 	unsigned int ibo;
 	GLCall(glGenBuffers(1, &ibo));
 	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
 	GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW));
-
+	*/
 
 
 	ShaderProgramSource source = ParseShader("../resources/shaders/basic.shader");
@@ -179,6 +192,9 @@ int main()
 
         // draw...
 		GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
+
+		va.bind();
+		ib.bind();
 
 		GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
