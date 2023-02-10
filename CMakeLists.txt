@@ -14,23 +14,26 @@ set(CMAKE_CURRENT_SOURCE_DIR "./src")
 # Add executable target
 add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 target_sources(${PROJECT_NAME} 
 	PRIVATE "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/error_handling.cpp>"
 	PRIVATE "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/index_buffer.cpp>"
 	PRIVATE "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/vertex_buffer.cpp>"
 	PRIVATE "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/renderer.cpp>"
 	PRIVATE "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/vertex_array.cpp>"
+	PRIVATE "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/shader.cpp>"
+	PRIVATE "$<$<CONFIG:Debug>:${CMAKE_CURRENT_SOURCE_DIR}/texture.cpp>"
+	PRIVATE "$<$<CONFIG:Debug>:include/vendor/stb_image/stb_image.cpp>"
 )
-
-set(CMAKE_BUILD_TYPE Debug)
-
-# add_subdirectory(dependencies/SFML-2.5.1)
 
 target_include_directories(${PROJECT_NAME} 
 	PRIVATE ${SFML_ROOT}/include
 	PRIVATE ${GLEW_ROOT}/include
 	PRIVATE include
 )
+
+#TODO do I need src files?
 
 target_link_directories(${PROJECT_NAME} 
 	PRIVATE ${SFML_ROOT}/build/lib

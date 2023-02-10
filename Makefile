@@ -23,33 +23,40 @@ OBJ_DIR =		obj
 SRCS =			main.opp 
 SFML = ./SFML-2.5.1
 
-LIB =			libft/libft.a
+LIB1 =			dependencies/glew-2.1.0/lib/libGLEW.a
+LIB2 =			dependencies/SFML-2.5.1/build/lib/libsfml-system-s-d.a \
+				dependencies/SFML-2.5.1/build/lib/libsfml-window-s-d.a
 MAC_LIBS =		-lmlx -lm -framework OpenGL -framework AppKit
 LINUX_LIBS =	-lX11 -lXext -lmlx -lm -lpthread
 INCLUDES =		-I $(INC_DIR)/ -I ./SFML-2.5.1/include/SFML/
 OBJECTS =		$(addprefix $(OBJ_DIR)/, $(SRCS))
+B_MAKEFILE =	build/Makefile
 
 
-all:
-	make -C dependencies/glew-2.1.0/auto
-	make -C dependencies/glew-2.1.0
-	cmake -S dependencies/SFML-2.5.1 -B dependencies/SFML-2.5.1/build
-	make -C dependencies/SFML-2.5.1/build/
-	cmake -S . -B build
+all: $(LIB1) $(LIB2) $(B_MAKEFILE)
 	make -C build/
+	mv build/scop ./
 #all: $(NAME)
 
-$(OBJ_DIR)/%.opp: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	$(CC) -c $(CFLAGS) -o $@ $< $(INCLUDES)
+#$(OBJ_DIR)/%.opp: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+#	$(CC) -c $(CFLAGS) -o $@ $< $(INCLUDES)
 
-$(NAME): $(OBJECTS) $(LIB)
-	$(CC) $(FLAGS) $(INCLUDES) -o $@ $^ $(MAC_LIBS)
+#$(NAME): $(OBJECTS) $(LIB)
+#	$(CC) $(FLAGS) $(INCLUDES) -o $@ $^ $(MAC_LIBS)
+
+$(B_MAKEFILE):
+	cmake -S . -B build
 
 $(OBJ_DIR):
 	mkdir $(OBJ_DIR)
 
-$(LIB):
-	@make -C libft/
+$(LIB1):
+	make -C dependencies/glew-2.1.0/auto
+	make -C dependencies/glew-2.1.0
+
+$(LIB2):
+	cmake -S dependencies/SFML-2.5.1 -B dependencies/SFML-2.5.1/build
+	make -C dependencies/SFML-2.5.1/build/
 
 linux: $(OBJECTS) $(LIB)
 	@$(CC) $(FLAGS) $(INCLUDES) -o $(NAME) $^ $(LINUX_LIBS)

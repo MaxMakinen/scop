@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scop.hpp"
 #include "index_buffer.hpp"
-#include "renderer.hpp"
 
 index_buffer::index_buffer(const GLuint *data, GLuint count)
 {

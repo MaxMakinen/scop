@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scop.hpp"
 #include "vertex_array.hpp"
-#include "renderer.hpp"
 #include "vertex_buffer.hpp"
 
 
@@ -31,7 +29,7 @@ void vertex_array::add_buffer(const vertex_buffer &vb, const vertex_buffer_layou
 	bind();
 	vb.bind();
 	const auto &elements = layout.get_elements();
-	uint32_t offset = 0;
+	uint64_t offset = 0;
 	for (uint32_t i = 0; i < elements.size(); i++)
 	{
 		const auto &element = elements[i];

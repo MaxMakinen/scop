@@ -11,9 +11,20 @@
 /* ************************************************************************** */
 
 
-#include "scop.hpp"
+#include "renderer.hpp"
 
-# include <GL/glew.h>
-# include <SFML/System.hpp>
-# include <SFML/Window.hpp>
-# include <SFML/OpenGL.hpp>
+
+void renderer::draw(const vertex_array &va, const index_buffer &ib, const shader &shader) const
+{
+	shader.bind();
+	va.bind();
+	ib.bind();
+
+	GLCall(glDrawElements(GL_TRIANGLES, ib.get_count(), GL_UNSIGNED_INT, nullptr));
+
+}
+
+void renderer::clear() const
+{
+    GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+}

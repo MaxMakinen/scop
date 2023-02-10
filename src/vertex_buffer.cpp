@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scop.hpp"
 #include "vertex_buffer.hpp"
-#include "renderer.hpp"
-
 
 vertex_buffer::vertex_buffer(const void *data, GLuint size)
 {
