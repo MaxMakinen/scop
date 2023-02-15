@@ -10,18 +10,24 @@
 #                                                                              #
 # **************************************************************************** #
 
+UNAME := $(shell uname)
 
+ifeq ($(UNAME), Linux)
+#FLAGS = 		-Wall -Wextra -Werror -fopenmp -std=c++11 #seems to be enough on debian
+FLAGS = 		-Wall -Wextra -Werror -fopenmp -std=c++11 -Wno-return-type -fPIE
+endif
+ifeq ($(UNAME), Darwin)
+FLAGS = 		-Wall -Wextra -Werror -fopenmp -std=c++11
+endif
 SHELL =			/bin/sh
 .SUFFIXES =		
 .SUFFIXES =		.cpp .opp .hpp
-CC =			g++
-FLAGS = 		-Wall -Wextra -Werror -g -fopenmp -std=c++11 -Wno-return-type -fPIE
+CC =			g++ -g
 NAME =			scop
 SRC_DIR =		src
 INC_DIR =		include
 OBJ_DIR =		obj
 SRCS =			main.opp error_handling.opp  index_buffer.opp renderer.opp shader.opp texture.opp vertex_array.opp vertex_buffer.opp
-SFML =			./SFML-2.5.1
 
 GLEW_DIR =		./dependencies/glew-2.1.0
 GLEW_INC =		${GLEW_DIR}/GL/include
