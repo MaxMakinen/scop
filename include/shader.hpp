@@ -14,6 +14,7 @@
 # define SHADER_HPP
 # include <string>
 # include <unordered_map>
+# include "vector.hpp"
 
 struct	shader_program_source
 {
@@ -40,6 +41,7 @@ class shader
 		void set_uniform_1i(const std::string &name, int32_t v);
 		void set_uniform_1f(const std::string &name, float v);
 		void set_uniform_4f(const std::string &name, float v0, float v1, float f2, float f3);
+		void set_uniform_mat4f(const std::string &name, const mat4x4f &matrix);
 
 	private:
 		shader_program_source parse_shader(const std::string &filepath);

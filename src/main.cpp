@@ -29,6 +29,7 @@
 #include "vertex_buffer_layout.hpp"
 #include "shader.hpp"
 #include "texture.hpp"
+#include "vector.hpp"
 
 int main(void)
 {
@@ -59,6 +60,10 @@ int main(void)
 		2, 3, 0
 	};
 
+	// Enable blending and set blending rules
+	GLCall(glEnable(GL_BLEND));
+	GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
 	vertex_array va;
 
 	vertex_buffer vb(positions, 4 * 4 * sizeof(float));
@@ -70,10 +75,20 @@ int main(void)
 
 	index_buffer ib(indices, 6);
 
+	// Create projection matrix
+	mat4x4f proj;
+	//proj.ortho(-2.0f, 2.0f, -1.5f, 1.5f);
+	//proj.orthographic(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+	proj.perspective(window.getSize().x, window.getSize().y, 0.1f, 100.0f, 90.0f);
+	proj.invert();
+	
+	// Load shaders
 	shader shader("../resources/shaders/basic.shader");
 	shader.bind();
 	shader.set_uniform_4f("u_color", 0.8f, 0.3f, 0.8f, 1.0f);
+	shader.set_uniform_mat4f("u_MVP", proj);
 
+	// Load texture
 	texture texture("../resources/textures/dickbutt.png");
 	texture.bind();
 	shader.set_uniform_1i("u_texture", 0);
@@ -82,6 +97,7 @@ int main(void)
 	vb.unbind();
 	ib.unbind();
 	shader.unbind();
+	texture.unbind();
 
 	renderer renderer;
     // run the main loop
@@ -96,6 +112,7 @@ int main(void)
 
         // draw...
 		shader.bind();
+		texture.bind();
 		shader.set_uniform_4f("u_color", r, 0.3f, 0.8f, 1.0f);
 
 		renderer.draw(va, ib, shader);
@@ -126,6 +143,9 @@ int main(void)
             {
                 // adjust the viewport when the window is resized
                 glViewport(0, 0, event.size.width, event.size.height);
+				// adjust perspective projection matrix if window resized.
+				proj.perspective_resize(event.size.height, event.size.width);
+				shader.set_uniform_mat4f("u_MVP", proj);
             }
         }
     }
