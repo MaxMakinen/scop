@@ -81,7 +81,6 @@ int main(void)
 	//proj.orthographic(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
 	proj.perspective(window.getSize().x, window.getSize().y, 0.1f, 100.0f, 90.0f);
 	proj.invert();
-	
 	// Load shaders
 	shader shader("../resources/shaders/basic.shader");
 	shader.bind();
