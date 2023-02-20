@@ -28,5 +28,7 @@ void main()
 {	
 	vec4 texColor = texture(u_texture, v_tex_coord);
 //	color = texColor;
-	color = texColor * u_color;
+	color = texColor;
+	if (texColor.a < 0.1)
+		color = u_color;
 };
