@@ -6,7 +6,7 @@
 #    By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 15:12:35 by mmakinen          #+#    #+#              #
-#    Updated: 2023/02/23 16:32:33 by mmakinen         ###   ########.fr        #
+#    Updated: 2023/02/23 17:21:56 by mmakinen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,49 +16,59 @@ CXXFLAGS 	:= 	-Wall -Wextra -Werror -std=c++11
 CFLAGS 		:=	-Wall -Wextra -Werror
 CPPFLAGS 	:=	-Iinclude -MMD -MP
 LDFLAGS 	:=	-Llib
-LDLIBS 		:=	-lX11 -lXext -lXi -ldl -lXcursor -lXinerama -lpthread -lGL -lXrandr
+LDLIBS 		:=	-lglfw3 -lOpenGL -ldl -lGL -lX11 -lXrandr -lXext -lXi -lXcursor -lXinerama -lpthread -lfreetype
 
 CXX =			g++ -g
-CC =			GCC
+CC =			gcc
 NAME =			scop
 
 # Directory settings
-SRC_DIR =		src
-INC_DIR =		include
-OBJ_DIR =		obj
-LIB_DIR =		lib
+SRC_DIR 	=	src
+INC_DIR 	=	include
+STB_DIR		=	$(INC_DIR)/vendor/stb_image
+OBJ_DIR 	=	obj
+LIB_DIR 	=	lib
 
-STB_DIR =		$(INC_DIR)/vendor/stb_image
-STB_SRC =		$(STB_DIR)/stb_image.cpp
+STB_DIR 	=	$(INC_DIR)/vendor/stb_image
+STB_SRC 	=	$(STB_DIR)/stb_image.cpp
 
-INCLUDES =		-I $(INC_DIR)/
+INCLUDES 	=	-I $(INC_DIR)/
 
 # Source files
-SRCS :=			main.cpp glad.c error_handling.cpp index_buffer.cpp renderer.cpp shader.cpp \
+GLAD_SRC	:=	$(SRC_DIR)/glad.c
+STB_SRC		:=	$(STB_DIR)/stb_image.cpp
+SRCS		:=	$(wildcard $(SRC_DIR)/*.cpp)
+#SRCS 		:=	main.cpp error_handling.cpp index_buffer.cpp renderer.cpp shader.cpp \
 				texture.cpp vertex_array.cpp vertex_buffer.cpp mesh.cpp vector.cpp
-OBJS :=			$(patsubst $(OBJ_DIR)/%.opp,$(SRC_DIR)/%.cpp,$(SRCS))
+OBJS 		:=	$(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.opp, $(SRCS)) $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(GLAD_SRC)) stb_image.opp
+STB			:=	$(OBJ_DIR)/stb_image.opp
 
-DEPS =			$(wildcard $(INC_DIR)/%.hpp)
 GLAD_DEP =		$(INC_DIR)/glad/glad.h
+DEPS =			$(wildcard $(INC_DIR)/%.hpp) $(GLAD_DEP)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(STB)
 	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
+$(STB):
+	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(LDLIBS) -c -o $(OBJ_DIR)/stb_image.opp $(STB_SRC)
+
 $(OBJ_DIR)/%.opp: $(SRC_DIR)/%.cpp $(DEPS) | $(OBJ_DIR)
-	$(CXX) $(CXXFLAGS) -c -o $@ $< $(INCLUDES)
+	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(LDLIBS) -c -o $@ $<
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(GLAD_DEP) | $(OBJ_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< $(INCLUDES) -o $@
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR):
-	mkdir $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)
 
-clean: $(OBJS)
+
+
+clean:
 	rm -f $(OBJS)
 
-fclean: clean $(NAME)
+fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
