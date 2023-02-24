@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:01:05 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/24 15:09:07 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 16:42:05 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,28 +107,28 @@ public:
 	union {T y, g, t; };
 	union {T z, b, p; };
 
-	vec3 operator + (const vec3 &vector) const
+	vec3 operator+(const vec3 &vector) const
 	{ return (vec3(x + vector.x, y + vector.y, z + vector.z)); }
 
-	vec3 operator - (const vec3 &vector) const
+	vec3 operator-(const vec3 &vector) const
 	{ return (vec3(x - vector.x, y - vector.y, z - vector.z)); }
 
-	vec3 operator - () const
+	vec3 operator-() const
 	{ return (vec3(-x,  -y, -z)); }
 
-	vec3 operator - (const T &num) const
+	vec3 operator-(const T &num) const
 	{ return (vec3(x - num,  y - num, z - num)); }
 
-	vec3 operator * (const T &num) const
+	vec3 operator*(const T &num) const
 	{ return (vec3(x * num , y * num, z - num)); }
 
-	vec3 operator * (const vec3 &vector) const
+	vec3 operator*(const vec3 &vector) const
 	{ return (vec3(x * vector.x, y * vector.y, z * vector.z)); }
 
-	vec3& operator /= (const T &num) const
+	vec3& operator/=(const T &num) const
 	{ x /= num, y /= num, z /= num; return (*this); }
 
-	vec3& operator *= (const T &r) const
+	vec3& operator*=(const T &r) const
 	{ x *= r, y *= r, z *= r; return (*this); }
 
 
@@ -153,25 +153,26 @@ public:
 		T norm = this->norm();
 		if (norm > 0)
 		{
-			T factor = 1/ sqrt(norm);
+			T factor = 1 / sqrt(norm);
 			x *= factor, y *= factor, z *=factor;
 		}
 		return (*this);
 	}
 
-	friend vec3 operator * (const T &num, const vec3 &vector)
-	{ return (vec3<T>(vector.x * num, vector.y * num, vector.z * num)); }
+	friend vec3 operator*(const T &num, const vec3 &vector)
+	{ return (vec3<T>(vector.x * num, vector.y * num, vector.z * num)); };
 
-	friend vec3 operator / (const T &num, const vec3 &vector)
-	{ return (vec3<T>(num / vector.x, num / vector.y, num / vector.z)); }
+	friend vec3 operator/(const T &num, const vec3 &vector)
+	{ return (vec3<T>(num / vector.x, num / vector.y, num / vector.z)); };
 
-	friend vec3 operator / (const vec3 &vector, const T &num)
-	{ return (vec3<T>(vector.x / num, vector.y / num, vector.z / num)); }
+	friend vec3 operator/(const vec3 &vector, const T &num)
+	{ return (vec3<T>(vector.x / num, vector.y / num, vector.z / num)); };
 
 	// Accessors for use in loopes etc. Const and mutable.
 	const T& operator [] (uint8_t index) const { return ((&x)[index]); }
 	T& operator [] (uint8_t index) { return ((&x)[index]); }
 };
+
 
 /*
 Typedefs for specialised classes. 
@@ -211,17 +212,16 @@ public:
 	{ return (vec4(-x,  -y, -z, w)); }
 
 	vec4 operator * (const T &num) const
-	{ return (vec4(x * num , y * num, z * num, w)); }
+	{ return (vec4(x * num , y * num, z * num, w * num)); }
 
 	vec4 operator * (const vec4 &vector) const
-	{ return (vec4(x * vector.x, y * vector.y, z * vector.z, w)); }
+	{ return (vec4(x * vector.x, y * vector.y, z * vector.z, w * vector.w)); }
 
 	vec4& operator /= (const T &num) const
 	{ x /= num, y /= num, z /= num; return (*this); }
 
 	vec4& operator *= (const T &r) const
 	{ x *= r, y *= r, z *= r; return (*this); }
-
 
 	T dot_product(const vec4<T> &vector) const
 	{ return (x * vector.x + y * vector.y + z * vector.z); }
@@ -279,9 +279,10 @@ template<typename T>
 class mat4x4
 {
 public:
-	T mat[4][4] = {{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}};
+	union {T mat[4][4],	vec4[4];};
 
-	mat4x4() {}
+	mat4x4()
+		: mat({{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}}) {}
 
 	mat4x4 (T a, T b, T c, T d, T e, T f, T g, T h, 
 			T i, T j, T k, T l, T m, T n, T o, T p)
@@ -485,6 +486,41 @@ public:
 					 mat[2][3],
 					 mat[3][3]);
 		*this = temp;
+		return (*this);
+	}
+
+	// Rotate along axis
+	mat4x4& rotate(T angle, vec3<T> &v)
+	{
+		//float	fovr = fov * (M_PI / 180);
+		// TODO make deg to rad function. Save M_PI / 180 as constant somewhere.
+
+		T const a = angle * (M_PI / 180);
+		T const c = cos(a);
+		T const s = sin(a);
+
+		vec3<T> axis = v.normalize();
+		vec3<T> temp = (T(1) - c) * axis;
+
+		mat4x4<T> Rotate;
+		Rotate[0][0] = c + temp[0] * axis[0];
+		Rotate[0][1] = temp[0] * axis[1] + s * axis[2];
+		Rotate[0][2] = temp[0] * axis[2] - s * axis[1];
+
+		Rotate[1][0] = temp[1] * axis[0] - s * axis[2];
+		Rotate[1][1] = c + temp[1] * axis[1];
+		Rotate[1][2] = temp[1] * axis[2] + s * axis[0];
+
+		Rotate[2][0] = temp[2] * axis[0] + s * axis[1];
+		Rotate[2][1] = temp[2] * axis[1] - s * axis[0];
+		Rotate[2][2] = c + temp[2] * axis[2];
+
+		mat4x4<T> Result;
+		Result[0] = mat[0] * Rotate[0][0] + mat[1] * Rotate[0][1] + mat[2] * Rotate[0][2];
+		Result[1] = mat[0] * Rotate[1][0] + mat[1] * Rotate[1][1] + mat[2] * Rotate[1][2];
+		Result[2] = mat[0] * Rotate[2][0] + mat[1] * Rotate[2][1] + mat[2] * Rotate[2][2];
+		Result[3] = mat[3];
+		*this = Result;
 		return (*this);
 	}
 

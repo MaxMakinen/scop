@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 12:01:24 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/09 12:01:26 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 15:17:56 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void renderer::draw(const vertex_array &va, const index_buffer &ib, const shader
 	va.bind();
 	ib.bind();
 
-	GLCall(glDrawElements(GL_TRIANGLES, ib.get_count(), GL_UNSIGNED_INT, nullptr));
+	GLCall(glDrawElements(GL_TRIANGLES, ib.get_count()/sizeof(int), GL_UNSIGNED_INT, nullptr));
 
 }
 

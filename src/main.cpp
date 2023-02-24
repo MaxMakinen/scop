@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 12:01:46 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/24 15:12:04 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 16:43:51 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,22 @@ int main(void)
 	// Vertices coordinates
 	GLfloat vertices[] =
 	{ //     COORDINATES     /        COLORS      /   TexCoord  //
-		-0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f,	0.0f, 0.0f, // Lower left corner
-		-0.5f,  0.5f, 0.0f,     0.0f, 1.0f, 0.0f,	0.0f, 1.0f, // Upper left corner
-		 0.5f,  0.5f, 0.0f,     0.0f, 0.0f, 1.0f,	1.0f, 1.0f, // Upper right corner
-		 0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 1.0f,	1.0f, 0.0f  // Lower right corner
+		-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
+		-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
+		 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
+		 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
+		 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	2.5f, 5.0f
 	};
-	
+
 	// Indices for vertices order
 	GLuint indices[] =
 	{
-		0, 2, 1, // Upper triangle
-		0, 3, 2 // Lower triangle
+		0, 1, 2,
+		0, 2, 3,
+		0, 1, 4,
+		1, 2, 4,
+		2, 3, 4,
+		3, 0, 4
 	};
 
 
@@ -132,28 +137,11 @@ int main(void)
 	GLuint uniID = glGetUniformLocation(shader.get_id(), "scale");
 
 	// Load texture
-	texture texture("resources/textures/dickbutt.png");
+	texture texture("resources/textures/brick.png");
 	texture.texUnit(shader, "tex0", 0);
-	
-	mat4x4f	model;
-	mat4x4f	view;
-	mat4x4f	proj;
-	view.translate((vec3f){0.0f, -0.5f, -2.0f});
-	proj.perspective((float)height, (float)width, 0.1f, 100.0f, 45.f);
 
-//	model.transpose();
-//	view.transpose();
-//	proj.transpose();
-	
-	int model_loc;
-	GLCall(model_loc = glGetUniformLocation(shader.get_id(), "model"));
-	GLCall(glUniformMatrix4fv(model_loc, 1, GL_TRUE, &model[0][0]));
-	int view_loc;
-	GLCall(view_loc = glGetUniformLocation(shader.get_id(), "view"));
-	GLCall(glUniformMatrix4fv(view_loc, 1, GL_TRUE, &view[0][0]));
-	int proj_loc;
-	GLCall(proj_loc = glGetUniformLocation(shader.get_id(), "proj"));
-	GLCall(glUniformMatrix4fv(proj_loc, 1, GL_TRUE, &proj[0][0]));
+	float rotation = 0.0f;
+	double prevTime = glfwGetTime();
 
 	/* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -164,13 +152,41 @@ int main(void)
 		glClear(GL_COLOR_BUFFER_BIT);
 		// Tell OpenGL which Shader Program we want to use
 		shader.bind();
+	
+		double	crntTime = glfwGetTime();
+		if (crntTime - prevTime >= 1 / 60)
+		{
+			rotation += 0.5f;
+			prevTime = crntTime;
+		}
+
+		mat4x4f	model;
+		mat4x4f	view;
+		mat4x4f	proj;
+		vec3f	axis(0.0f, 1.0f, 0.0f);
+
+		model.rotate(rotation, axis);
+		view.translate((vec3f){0.0f, -0.5f, -2.0f});
+		proj.perspective((float)height, (float)width, 0.1f, 100.0f, 45.f);
+
+		int model_loc;
+		GLCall(model_loc = glGetUniformLocation(shader.get_id(), "model"));
+		GLCall(glUniformMatrix4fv(model_loc, 1, GL_FALSE, &model[0][0]));
+		int view_loc;
+		GLCall(view_loc = glGetUniformLocation(shader.get_id(), "view"));
+		GLCall(glUniformMatrix4fv(view_loc, 1, GL_TRUE, &view[0][0]));
+		int proj_loc;
+		GLCall(proj_loc = glGetUniformLocation(shader.get_id(), "proj"));
+		GLCall(glUniformMatrix4fv(proj_loc, 1, GL_TRUE, &proj[0][0]));
+
+
 		// Assigns a value to the uniform; NOTE: Must always be done after activating the Shader Program
 		glUniform1f(uniID, 0.5f);
 		texture.bind();
 		// Bind the VAO so OpenGL knows to use it
 		VAO1.bind();
 		// Draw primitives, number of indices, datatype of indices, index of indices
-		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(GLuint), GL_UNSIGNED_INT, 0);
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
 		// Take care of all GLFW events

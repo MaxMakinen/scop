@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:58:42 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/24 14:01:48 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 15:35:29 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@ texture::texture(const std::string &path)
 	GLCall(glGenTextures(1, &m_renderer_id));
 	GLCall(glBindTexture(GL_TEXTURE_2D, m_renderer_id));
 
-	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+	// Configures the type of algorithm that is used to make the image smaller or bigger
+	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR));
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
-	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+
+	// Configures the way the texture repeats (if it does at all)
+	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
 
 	/* If GL_CLAMP_TO_BORDER choose a border color*/
 	//	float border_color[] = {1.f, 1.f, 0.8f, 1.0f};
