@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:01:05 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/24 10:48:24 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 15:09:07 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,10 @@ public:
 	vec4(T xx, T yy, T zz) : x(xx), y(yy), z(zz) , w(T(0)) {}
 	vec4(T xx, T yy, T zz, T ww) : x(xx), y(yy), z(zz) , w(ww) {}
 
-	T x, y, z, w;
+	union {T x, r, s; };
+	union {T y, g, t; };
+	union {T z, b, p; };
+	union {T w, a, q; };
 
 	vec4 operator + (const vec4 &vector) const
 	{ return (vec4(x + vector.x, y + vector.y, z + vector.z, w + vector.w)); }
@@ -322,6 +325,7 @@ public:
 	// Creates a perspective projection matrix
 	void perspective(T const &window_height, T const &window_width, T const &near, T const &far, T const &fov)
 	{
+		//float	fovr = fov * (M_PI / 180);
 		float	aspect_ratio = (float)window_height / (float)window_width;
 		float	scale = 1.0f / tan((fov * 0.5f) * M_PI / 180.0f); // * near;
 //		float	f = far;

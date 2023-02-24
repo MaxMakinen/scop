@@ -6,7 +6,7 @@
 #    By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 15:12:35 by mmakinen          #+#    #+#              #
-#    Updated: 2023/02/24 12:16:06 by mmakinen         ###   ########.fr        #
+#    Updated: 2023/02/24 12:44:36 by mmakinen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ INCLUDES 	=	-I $(INC_DIR)/
 STB_SRC		=	$(STB_DIR)/stb_image.cpp
 #SRCS		:=	$(wildcard $(SRC_DIR)/*.cpp)
 SRCS 		=	main.cpp error_handling.cpp index_buffer.cpp renderer.cpp shader.cpp \
-				texture.cpp vertex_array.cpp vertex_buffer.cpp mesh.cpp
+				texture.cpp vertex_array.cpp vertex_buffer.cpp mesh.cpp stb_image.cpp
 SRC			=	$(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS 		=	$(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.opp, $(SRC)) $(OBJ_DIR)/stb_image.opp
 STB			=	$(OBJ_DIR)/stb_image.opp

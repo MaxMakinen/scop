@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 12:01:46 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/24 12:22:45 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 15:12:04 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void controls(GLFWwindow *window, int key, int scancode, int action, int mods)
 
 int main(void)
 {
+	float	height = 600.f;
+	float	width = 800.f;
+	
 	/* Initialise the GLFW library*/
 	if (!glfwInit())
 		return (-1);
@@ -49,7 +52,7 @@ int main(void)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its openGL Context*/
-	GLFWwindow *window = glfwCreateWindow(800, 600, "~ Scop ~", NULL ,NULL);
+	GLFWwindow *window = glfwCreateWindow(width, height, "~ Scop ~", NULL ,NULL);
 	if (window == NULL)
 	{
 		std::cout << "Error!: Failed to create GLFW window." << std::endl;
@@ -66,8 +69,8 @@ int main(void)
 		std::cout << "Error!: glewInit not ok." << std::endl;
 
 	/* Specify the wievport of OpenGL in the window.
-	In this case the viewport goes from x = 0, y = 0 to x = 800, y = 600*/
-	GLCall(glViewport(0, 0, 800, 600));
+	In this case the viewport goes from x = 0, y = 0 to x = width, y = height*/
+	GLCall(glViewport(0, 0, width, height));
 
 	/* Set framerate */
 	//glfwSwapInterval(30);
@@ -81,36 +84,20 @@ int main(void)
 
     // load resources, initialize the OpenGL states, ...
 
-	GLfloat positions[] = {
-		-100.f, -100.f, 0.0f, 0.0f, //0
-		 100.f, -100.f, 1.0f, 0.0f, //1
-		 100.f,  100.f, 1.0f, 1.0f, //2
-		-100.f,  100.f, 0.0f, 1.0f  //3
-	};
-
-	unsigned int	indices[] = {
-		0, 1, 2,
-		2, 3, 0
-	};
-
-
 	// Vertices coordinates
 	GLfloat vertices[] =
-	{ //               COORDINATES                  /     COLORS           //
-		-0.5f, -0.5f * float(sqrt(3)) * 1 / 3, 0.0f,     0.8f, 0.3f,  0.02f, // Lower left corner
-		 0.5f, -0.5f * float(sqrt(3)) * 1 / 3, 0.0f,     0.8f, 0.3f,  0.02f, // Lower right corner
-		 0.0f,  0.5f * float(sqrt(3)) * 2 / 3, 0.0f,     1.0f, 0.6f,  0.32f, // Upper corner
-		-0.25f, 0.5f * float(sqrt(3)) * 1 / 6, 0.0f,     0.9f, 0.45f, 0.17f, // Inner left
-		 0.25f, 0.5f * float(sqrt(3)) * 1 / 6, 0.0f,     0.9f, 0.45f, 0.17f, // Inner right
-		 0.0f, -0.5f * float(sqrt(3)) * 1 / 3, 0.0f,     0.8f, 0.3f,  0.02f  // Inner down
+	{ //     COORDINATES     /        COLORS      /   TexCoord  //
+		-0.5f, -0.5f, 0.0f,     1.0f, 0.0f, 0.0f,	0.0f, 0.0f, // Lower left corner
+		-0.5f,  0.5f, 0.0f,     0.0f, 1.0f, 0.0f,	0.0f, 1.0f, // Upper left corner
+		 0.5f,  0.5f, 0.0f,     0.0f, 0.0f, 1.0f,	1.0f, 1.0f, // Upper right corner
+		 0.5f, -0.5f, 0.0f,     1.0f, 1.0f, 1.0f,	1.0f, 0.0f  // Lower right corner
 	};
 	
 	// Indices for vertices order
-	GLuint indices2[] =
+	GLuint indices[] =
 	{
-		0, 3, 5, // Lower left triangle
-		3, 2, 4, // Lower right triangle
-		5, 4, 1 // Upper triangle
+		0, 2, 1, // Upper triangle
+		0, 3, 2 // Lower triangle
 	};
 
 
@@ -118,58 +105,9 @@ int main(void)
 	GLCall(glEnable(GL_BLEND));
 	GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
-	vertex_array va;
-	vertex_buffer vb(positions, 4 * 4 * sizeof(float));
-
-	vertex_buffer_layout layout;
-	layout.push<float>(2);
-	layout.push<float>(2);
-	va.add_buffer(vb, layout);
-//	va.LinkAttrib(vb, 0, 3, GL_FLOAT, 6 * sizeof(float), (void *) 0);
-//	va.LinkAttrib(vb, 1, 3, GL_FLOAT, 6 * sizeof(float), (void *)(3 * sizeof(float)));
-
-	index_buffer ib(indices, 6);
-
-//	// Create projection matrix
-//	mat4x4f proj;
-//	//proj.ortho(-(window_size.x / 2.f), (window_size.x / 2.f), -(window_size.y / 2.f), (window_size.y / 2.f));
-//	//proj.orthographic(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
-//	proj.perspective(800, 600, 0.1f, 100.0f, 90.0f);
-//	proj.invert();
-//
-//	// Create camera view matrix
-//	mat4x4f view;
-//	//view.lookat(vec3f(0.f, 0.f, -1.f), vec3f(0.f, 0.f, 0.f), vec3f(0.f, 1.f, 0.f));
-//	view.translate(vec3f(0.f, 100.f, -20.f));
-//
-//	// Create model matrix;
-//	mat4x4f model;
-//	model.translate(vec3f(100.f, -50.f, 0.f));
-//
-//	// Create Model view matrix
-//	mat4x4f mvp = proj * view * model;	
-
 	// Load shaders
 	shader shader("resources/shaders/basic.glsl");
 	shader.bind();
-	shader.set_uniform_4f("u_color", 0.8f, 0.3f, 0.8f, 1.0f);
-//	// Give shader transposed copy of matrix
-//	shader.set_uniform_mat4f("u_MVP", mvp.transposed());
-//	
-//	// Load texture
-//	texture texture("resources/textures/dickbutt.png");
-//	texture.bind();
-//	shader.set_uniform_1i("u_texture", 0);
-//
-//	va.unbind();
-//	vb.unbind();
-//	ib.unbind();
-//	shader.unbind();
-//	texture.unbind();
-
-//	renderer renderer;
-//	float r = 0.8f;
-//	float increment = 0.05f;
 
 	// Generates Vertex Array Object and binds it
 	vertex_array VAO1;
@@ -178,11 +116,13 @@ int main(void)
 	// Generates Vertex Buffer Object and links it to vertices
 	vertex_buffer VBO1(vertices, sizeof(vertices));
 	// Generates Element Buffer Object and links it to indices
-	index_buffer EBO1(indices2, sizeof(indices2));
+	index_buffer EBO1(indices, sizeof(indices));
 
 	// Links VBO attributes such as coordinates and colors to VAO
-	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
-	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
+	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	VAO1.LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	
 	// Unbind all to prevent accidentally modifying them
 	VAO1.unbind();
 	VBO1.unbind();
@@ -190,6 +130,30 @@ int main(void)
 
 	// Gets ID of uniform called "scale"
 	GLuint uniID = glGetUniformLocation(shader.get_id(), "scale");
+
+	// Load texture
+	texture texture("resources/textures/dickbutt.png");
+	texture.texUnit(shader, "tex0", 0);
+	
+	mat4x4f	model;
+	mat4x4f	view;
+	mat4x4f	proj;
+	view.translate((vec3f){0.0f, -0.5f, -2.0f});
+	proj.perspective((float)height, (float)width, 0.1f, 100.0f, 45.f);
+
+//	model.transpose();
+//	view.transpose();
+//	proj.transpose();
+	
+	int model_loc;
+	GLCall(model_loc = glGetUniformLocation(shader.get_id(), "model"));
+	GLCall(glUniformMatrix4fv(model_loc, 1, GL_TRUE, &model[0][0]));
+	int view_loc;
+	GLCall(view_loc = glGetUniformLocation(shader.get_id(), "view"));
+	GLCall(glUniformMatrix4fv(view_loc, 1, GL_TRUE, &view[0][0]));
+	int proj_loc;
+	GLCall(proj_loc = glGetUniformLocation(shader.get_id(), "proj"));
+	GLCall(glUniformMatrix4fv(proj_loc, 1, GL_TRUE, &proj[0][0]));
 
 	/* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -202,6 +166,7 @@ int main(void)
 		shader.bind();
 		// Assigns a value to the uniform; NOTE: Must always be done after activating the Shader Program
 		glUniform1f(uniID, 0.5f);
+		texture.bind();
 		// Bind the VAO so OpenGL knows to use it
 		VAO1.bind();
 		// Draw primitives, number of indices, datatype of indices, index of indices

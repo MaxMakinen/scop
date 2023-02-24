@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:58:51 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/10 12:58:52 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 13:05:35 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include "error_handling.hpp"
 # include <string>
-#include "../include/vendor/stb_image/stb_image.h"
+# include "vendor/stb_image/stb_image.h"
+# include "shader.hpp"
 
 class texture
 {
@@ -32,6 +33,7 @@ class texture
 
 		void bind(uint32_t slot = 0) const;
 		void unbind() const;
+		void texUnit(shader& shader, const char* uniform, GLuint unit);
 
 		inline int32_t get_width() const { return (m_width); }
 		inline int32_t get_height() const { return (m_height); }

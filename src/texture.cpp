@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 12:58:42 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/10 12:58:43 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 14:01:48 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,14 @@ texture::texture(const std::string &path)
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
 
+	/* If GL_CLAMP_TO_BORDER choose a border color*/
+	//	float border_color[] = {1.f, 1.f, 0.8f, 1.0f};
+	//	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, border_color);
+
+
 	GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_localbuffer));
+	// Generate MipMap in case surface gets further from camera
+	GLCall(glGenerateMipmap(GL_TEXTURE_2D));
 	GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 	if (m_localbuffer)
 	{
@@ -37,6 +44,16 @@ texture::texture(const std::string &path)
 texture::~texture()
 {
 	GLCall(glDeleteTextures(1, &m_renderer_id));
+}
+
+void texture::texUnit(shader& shader, const char* uniform, GLuint unit)
+{
+	// Gets the location of the uniform
+	GLuint texUni = glGetUniformLocation(shader.get_id(), uniform);
+	// Shader needs to be activated before changing the value of a uniform
+	shader.bind();
+	// Sets the value of the uniform
+	glUniform1i(texUni, unit);
 }
 
 void texture::bind(uint32_t slot) const
