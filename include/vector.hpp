@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:01:05 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/16 10:01:06 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 10:48:24 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ public:
 	vec2() : x(T(0)), y(T(0)) {}
 	vec2(T xx) : x(xx), y(xx) {}
 	vec2(T xx, T yy) : x(xx), y(yy) {}
-
-	T x, y;
+	
+	union {T x, r, s, u; };
+	union {T y, g, t, v; };
 
 	vec2 operator + (const vec2 &vector) const
 	{ return (vec2(x + vector.x, y + vector.y)); }
@@ -102,7 +103,9 @@ public:
 	vec3(T xx) : x(xx), y(xx), z(xx) {}
 	vec3(T xx, T yy, T zz) : x(xx), y(yy), z(zz) {}
 
-	T x, y, z;
+	union {T x, r, s; };
+	union {T y, g, t; };
+	union {T z, b, p; };
 
 	vec3 operator + (const vec3 &vector) const
 	{ return (vec3(x + vector.x, y + vector.y, z + vector.z)); }
@@ -177,6 +180,7 @@ For example float vectors can be declared either vec3<float> a, or vec3f a.
 typedef vec3<double> vec3d;
 typedef vec3<float> vec3f;
 typedef vec3<int> vec3i;
+typedef vec3<unsigned int> vec3ui;
 
 
 /*
@@ -320,12 +324,12 @@ public:
 	{
 		float	aspect_ratio = (float)window_height / (float)window_width;
 		float	scale = 1.0f / tan((fov * 0.5f) * M_PI / 180.0f); // * near;
-		float	f = far;
-		float	n = near;
-		float	r = aspect_ratio * scale;
-		float	l = -r;
-		float	t = scale;
-		float	b = -t;
+//		float	f = far;
+//		float	n = near;
+//		float	r = aspect_ratio * scale;
+//		float	l = -r;
+//		float	t = scale;
+//		float	b = -t;
 /*
 		mat[0][0] = 2 * n / (r - 1);
 		mat[1][1] = 2 * n / (t - b);
@@ -454,7 +458,6 @@ public:
 					 mat[1][3],
 					 mat[2][3],
 					 mat[3][3]);
-		temp;
 		return (temp);
 	}
 

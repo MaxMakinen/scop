@@ -6,15 +6,15 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 12:20:39 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/09 12:20:40 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 10:38:21 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERROR_HANDLING_HPP
 # define ERROR_HANDLING_HPP
 
-#include <signal.h>
-#include <GL/glew.h>
+# include <signal.h>
+# include <GL/glew.h>
 
 #ifdef SIGTRAP
 //# define ASSERT(x) if (!(x)) __builtin_trap()

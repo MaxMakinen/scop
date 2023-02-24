@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 12:01:15 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/09 13:12:47 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 10:37:59 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #ifndef INDEX_BUFFER_HPP
 # define INDEX_BUFFER_HPP
 
-# include "scop.hpp"
+# include <GL/glew.h>
+# include "error_handling.hpp"
 
 class index_buffer
 {
@@ -22,13 +23,14 @@ class index_buffer
 		GLuint m_Renderer_id;
 		GLuint m_Count;
 	public:
-		index_buffer(const GLuint *data, GLuint count);
+		index_buffer( GLuint *indices, GLsizeiptr count );
 		~index_buffer();
 
 		void bind() const;
 		void unbind() const;
+		void delete_index() const;
 
-		inline GLuint get_count() const { return (m_Count); }
+		inline GLuint get_count() const { return ((GLuint)m_Count); }
 };
 
 #endif

@@ -4,6 +4,8 @@ endif ()
 
 project (glew)
 
+set(OpenGL_GL_PREFERENCE GLVND)
+
 cmake_minimum_required (VERSION 2.8.12)
 
 include(GNUInstallDirs)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scop.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmakinen <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 15:09:52 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/01/31 15:10:13 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 10:37:44 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 
 # include <GL/glew.h>
-# include <SFML/System.hpp>
-# include <SFML/Window.hpp>
-# include <SFML/OpenGL.hpp>
-
 # include "error_handling.hpp"
 
 #endif

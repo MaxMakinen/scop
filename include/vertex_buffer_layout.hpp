@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 13:25:43 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/09 13:25:44 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 10:37:06 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define VERTEX_BUFFER_LAYOUT_HPP
 
 # include <vector>
+# include <GL/glew.h>
 # include "scop.hpp"
 # include "vertex_buffer.hpp"
 # include "error_handling.hpp"
@@ -43,7 +44,7 @@ class vertex_buffer_layout
 {
 	private:
 		std::vector<vertex_buffer_element> m_elements;
-		uint32_t m_stride;
+		GLsizeiptr m_stride;
 	public:
 		vertex_buffer_layout()
 			: m_stride(0) {}
@@ -53,7 +54,7 @@ class vertex_buffer_layout
 
 
 		inline const std::vector<vertex_buffer_element> get_elements() const { return (m_elements);}
-		inline uint32_t get_stride() const { return (m_stride);}
+		inline GLsizeiptr get_stride() const { return (m_stride);}
 };
 
 template<>

@@ -6,17 +6,11 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:00:16 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/10 09:00:29 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/24 11:14:16 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <GL/glew.h>
 
-#include "error_handling.hpp"
 #include "shader.hpp"
 
 shader::shader(const std::string &filepath)

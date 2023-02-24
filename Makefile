@@ -6,7 +6,7 @@
 #    By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 15:12:35 by mmakinen          #+#    #+#              #
-#    Updated: 2023/02/23 17:36:03 by mmakinen         ###   ########.fr        #
+#    Updated: 2023/02/24 12:16:06 by mmakinen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,12 +17,12 @@ CFLAGS 		:=	-Wall -Wextra -Werror
 CPPFLAGS 	:=	-Iinclude -MMD -MP
 LDFLAGS 	:=	-Llib
 ifeq ($(UNAME), Linux)
-	LDLIBS 		:=	-lglfw3 -lOpenGL -ldl -lGL -lX11 -lXrandr -lXext -lXi -lXcursor -lXinerama -pthread -lfreetype
+	LDLIBS 		:=	-lGLEW -lglfw3 -lOpenGL -ldl -lGL -lX11 -lXrandr -lXext -lXi -lXcursor -lXinerama -pthread -lfreetype
 else ifeq ($(UNAME), Darwin)
 	LDLIBS 		:=	-lglfw3 -lOpenGL -ldl -lGL -lX11 -lXrandr -lXext -lXi -lXcursor -lXinerama -lpthread -lfreetype -framework Cocoa -framework IOKit -framework CoreVideo
 endif
 CXX =			g++ -g
-CC =			gcc
+CC =			gcc -g
 NAME =			scop
 
 # Directory settings
@@ -38,16 +38,15 @@ STB_SRC 	=	$(STB_DIR)/stb_image.cpp
 INCLUDES 	=	-I $(INC_DIR)/
 
 # Source files
-GLAD_SRC	:=	$(SRC_DIR)/glad.c
-STB_SRC		:=	$(STB_DIR)/stb_image.cpp
-SRCS		:=	$(wildcard $(SRC_DIR)/*.cpp)
-#SRCS 		:=	main.cpp error_handling.cpp index_buffer.cpp renderer.cpp shader.cpp \
-				texture.cpp vertex_array.cpp vertex_buffer.cpp mesh.cpp vector.cpp
-OBJS 		:=	$(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.opp, $(SRCS)) $(OBJ_DIR)/glad.o $(OBJ_DIR)/stb_image.opp
-STB			:=	$(OBJ_DIR)/stb_image.opp
+STB_SRC		=	$(STB_DIR)/stb_image.cpp
+#SRCS		:=	$(wildcard $(SRC_DIR)/*.cpp)
+SRCS 		=	main.cpp error_handling.cpp index_buffer.cpp renderer.cpp shader.cpp \
+				texture.cpp vertex_array.cpp vertex_buffer.cpp mesh.cpp
+SRC			=	$(addprefix $(SRC_DIR)/,$(SRCS))
+OBJS 		=	$(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.opp, $(SRC)) $(OBJ_DIR)/stb_image.opp
+STB			=	$(OBJ_DIR)/stb_image.opp
 
-GLAD_DEP =		$(INC_DIR)/glad/glad.h
-DEPS =			$(wildcard $(INC_DIR)/%.hpp) $(GLAD_DEP)
+DEPS =			$(wildcard $(INC_DIR)/%.hpp)
 
 all: $(NAME)
 
@@ -55,19 +54,18 @@ $(NAME): $(OBJS)
 	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 $(OBJ_DIR)/stb_image.opp: $(STB_SRC) $(STB_DIR)/stb_image.h | $(OBJ_DIR)
-	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(LDLIBS) -c -o $@ $<
+	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(LDLIBS) -c $< -o $@
 
-$(OBJ_DIR)/glad.o: $(GLAD_SRC) $(GLAD_DEP) | $(OBJ_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.opp: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(LDLIBS) -c $< -o $@
 
-$(OBJ_DIR)/%.opp: $(SRC_DIR)/%.cpp $(DEPS) | $(OBJ_DIR)
-	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(LDLIBS) -c -o $@ $<
+# TODO Need rules for compiling GLFW and glew from .zip and source and copy file to include and lib
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJ_DIR)/*
 
 fclean: clean
 	rm -f $(NAME)
