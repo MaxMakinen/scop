@@ -488,7 +488,7 @@ public:
 		*this = temp;
 		return (*this);
 	}
-
+/*
 	// Rotate along axis
 	mat4x4& rotate(T angle, vec3<T> &v)
 	{
@@ -523,7 +523,7 @@ public:
 		*this = Result;
 		return (*this);
 	}
-
+*/
 	// This method is for point-vector multiplication, we compute w.
 	template<typename S>
 	void mult_vec_matrix(const vec3<S> &src, vec3<S> &dst) const

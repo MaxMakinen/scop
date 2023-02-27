@@ -165,7 +165,7 @@ int main(void)
 		mat4x4f	proj;
 		vec3f	axis(0.0f, 1.0f, 0.0f);
 
-		model.rotate(rotation, axis);
+	//	model.rotate(rotation, axis);
 		view.translate((vec3f){0.0f, -0.5f, -2.0f});
 		proj.perspective((float)height, (float)width, 0.1f, 100.0f, 45.f);
 
