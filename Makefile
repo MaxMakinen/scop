@@ -52,9 +52,9 @@ STB			=	$(OBJ_DIR)/stb_image.opp
 
 DEPS =			$(wildcard $(INC_DIR)/%.hpp)
 
-all: $(NAME)
+all: $(NAME) | $(GLEW) $(GLFW)
 
-$(NAME): $(OBJS) | $(GLEW) $(GLFW)
+$(NAME): $(OBJS)
 	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 $(OBJ_DIR)/stb_image.opp: $(STB_SRC) $(STB_DIR)/stb_image.h | $(OBJ_DIR)
@@ -77,6 +77,7 @@ $(GLEW): | $(LIB_DIR)
 	sudo make -C dependencies/glew-2.1.0/auto
 	sudo make -C dependencies/glew-2.1.0
 	mv dependencies/glew-2.1.0/lib/libGLEW.a $(LIB_DIR)/
+	mv dependencies/glew-2.1.0/include/GL include/
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
