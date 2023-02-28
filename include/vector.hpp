@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:01:05 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/24 16:42:05 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/28 15:50:18 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ template<typename T>
 class vec4
 {
 public:
-	vec4() : x(T(0)), y(T(0)), z(T(0)), w(T(0)) {}
+	vec4() : x(T(0)), y(T(0)), z(T(0)), w(T(1)) {}
 	vec4(T xx) : x(xx), y(xx), z(xx), w(T(0)) {}
 	vec4(T xx, T yy, T zz) : x(xx), y(yy), z(zz) , w(T(0)) {}
 	vec4(T xx, T yy, T zz, T ww) : x(xx), y(yy), z(zz) , w(ww) {}
@@ -282,7 +282,7 @@ public:
 	union {T mat[4][4],	vec4[4];};
 
 	mat4x4()
-		: mat({{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}}) {}
+		: mat{{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}} {}
 
 	mat4x4 (T a, T b, T c, T d, T e, T f, T g, T h, 
 			T i, T j, T k, T l, T m, T n, T o, T p)
@@ -324,35 +324,43 @@ public:
 	}
 
 	// Creates a perspective projection matrix
-	void perspective(T const &window_height, T const &window_width, T const &near, T const &far, T const &fov)
+	void perspective(T const &aspect_ratio, T const &near, T const &far, T const &fov)
 	{
 		//float	fovr = fov * (M_PI / 180);
-		float	aspect_ratio = (float)window_height / (float)window_width;
-		float	scale = 1.0f / tan((fov * 0.5f) * M_PI / 180.0f); // * near;
-//		float	f = far;
-//		float	n = near;
-//		float	r = aspect_ratio * scale;
-//		float	l = -r;
-//		float	t = scale;
-//		float	b = -t;
+		//float	aspect_ratio = (float)window_width / (float)window_height;
+		//float	scale	= 1.0f / tan((fov * 0.5f) * 0.01745329251f); // * near;
+		float	top		= tan(fov * 0.5) * near;
+		float	bottom	= -top;
+		float	right	= aspect_ratio * top;
+		float	left	= -right;
+
+		mat[0][0] = 2 * near / (right - left);
+		mat[0][1] = 0;
+		mat[0][2] = 0;
+		mat[0][3] = 0;
+
+		mat[1][0] = 0;
+		mat[1][1] = 2 * near / (top - bottom);
+		mat[1][2] = 0;
+		mat[1][3] = 0;
+
+		mat[2][0] = (right + left) / (right - left);
+		mat[2][1] = (top + bottom) / (top - bottom);
+		mat[2][2] = -(far + near) / (far - near);
+		mat[2][3] = -1;
+
+		mat[3][0] = 0;
+		mat[3][1] = 0;
+		mat[3][2] = -2 * far * near / (far - near);
+		mat[3][3] = 0;
 /*
-		mat[0][0] = 2 * n / (r - 1);
-		mat[1][1] = 2 * n / (t - b);
-		mat[2][0] = (r + l) / (r - l);
-		mat[2][1] = (t + b) / (t - b);
-		mat[2][2] = -(f + b) / (f - n);
-		mat[2][3] = -1.0f;
-		mat[3][2] = -2 * f *n / (f - n);
-		mat[3][3] = 0.0f;
-*/		
-		
 		mat[0][0] = aspect_ratio * scale;
 		mat[1][1] = scale;
 		mat[2][2] = -far / (far - near);
 		mat[2][3] = -far * near / (far - near);
 		mat[3][2] = -1.0f;
 		mat[3][3] = 0.0f;
-		
+*/
 	}
 
 	void perspective_resize(T const &window_height, T const &window_width)
@@ -370,17 +378,21 @@ public:
 		right.normalize();
 		vec3<T> new_up = forward.cross_product(right);
 		mat[0][0] = right.x;
-		mat[1][0] = new_up.x;
-		mat[2][0] = forward.x;
-		mat[3][0] = from.x;
 		mat[0][1] = right.y;
-		mat[1][1] = new_up.y;
-		mat[2][1] = forward.y;
-		mat[3][1] = from.y;
 		mat[0][2] = right.z;
+
+		mat[1][0] = new_up.x;
+		mat[1][1] = new_up.y;
 		mat[1][2] = new_up.z;
+
+		mat[2][0] = forward.x;
+		mat[2][1] = forward.y;
 		mat[2][2] = forward.z;
-		mat[3][2] = from.z;
+
+		mat[0][3] = -right.dot_product(from);		
+		mat[1][3] = -new_up.dot_product(from);
+		mat[2][3] = -forward.dot_product(from);
+		mat[3][3] = 1.f;
 	}
 
 	void translate(vec3<T> const &vec)
@@ -488,42 +500,7 @@ public:
 		*this = temp;
 		return (*this);
 	}
-/*
-	// Rotate along axis
-	mat4x4& rotate(T angle, vec3<T> &v)
-	{
-		//float	fovr = fov * (M_PI / 180);
-		// TODO make deg to rad function. Save M_PI / 180 as constant somewhere.
 
-		T const a = angle * (M_PI / 180);
-		T const c = cos(a);
-		T const s = sin(a);
-
-		vec3<T> axis = v.normalize();
-		vec3<T> temp = (T(1) - c) * axis;
-
-		mat4x4<T> Rotate;
-		Rotate[0][0] = c + temp[0] * axis[0];
-		Rotate[0][1] = temp[0] * axis[1] + s * axis[2];
-		Rotate[0][2] = temp[0] * axis[2] - s * axis[1];
-
-		Rotate[1][0] = temp[1] * axis[0] - s * axis[2];
-		Rotate[1][1] = c + temp[1] * axis[1];
-		Rotate[1][2] = temp[1] * axis[2] + s * axis[0];
-
-		Rotate[2][0] = temp[2] * axis[0] + s * axis[1];
-		Rotate[2][1] = temp[2] * axis[1] - s * axis[0];
-		Rotate[2][2] = c + temp[2] * axis[2];
-
-		mat4x4<T> Result;
-		Result[0] = mat[0] * Rotate[0][0] + mat[1] * Rotate[0][1] + mat[2] * Rotate[0][2];
-		Result[1] = mat[0] * Rotate[1][0] + mat[1] * Rotate[1][1] + mat[2] * Rotate[1][2];
-		Result[2] = mat[0] * Rotate[2][0] + mat[1] * Rotate[2][1] + mat[2] * Rotate[2][2];
-		Result[3] = mat[3];
-		*this = Result;
-		return (*this);
-	}
-*/
 	// This method is for point-vector multiplication, we compute w.
 	template<typename S>
 	void mult_vec_matrix(const vec3<S> &src, vec3<S> &dst) const
