@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:37:17 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/28 15:03:41 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/28 18:27:21 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ public:
 
 	int32_t	width;
 	int32_t	height;
+
+	bool	first_click = true;
 
 	float	speed		= 0.1f;
 	float	sensitivity	= 100.f;

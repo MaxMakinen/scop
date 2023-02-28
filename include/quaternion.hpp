@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 09:30:36 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/28 14:35:36 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/28 18:34:56 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ public:
     quat<T>	normalized(quat<T> qu);
     void	normalize();
 	quat<T> local_rotation( vec3<T> &axis, T &angle );
-	quat<T>	muliply( quat<T> &q1, quat<T> &q2 );
+	quat<T>	multiply( quat<T> &q1, quat<T> &q2 );
 	vec3<T>	rotate( vec3<T> &point );
 	mat4x4<T>	rotation_matrix( vec3<T> &axis, T &angle );
 
     inline T	get_len() { return(sqrt(q.w * q.w + q.x * q.x + q.y * q.y + q.z * q.z)); }
+
+	void operator=(quat<T> input) { q = input; }
 };
 
 template<typename T>
@@ -85,7 +87,7 @@ quat<T>	quaternion<T>::local_rotation(vec3<T> &axis, T &angle)
 }
 
 template<typename T>
-quat<T>	quaternion<T>::muliply(quat<T> &q1, quat<T> &q2)
+quat<T>	quaternion<T>::multiply(quat<T> &q1, quat<T> &q2)
 {
 	quat<T> output;
 	

@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:01:05 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/28 15:50:18 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/28 17:29:04 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,23 +335,23 @@ public:
 		float	left	= -right;
 
 		mat[0][0] = 2 * near / (right - left);
-		mat[0][1] = 0;
-		mat[0][2] = 0;
-		mat[0][3] = 0;
-
 		mat[1][0] = 0;
-		mat[1][1] = 2 * near / (top - bottom);
-		mat[1][2] = 0;
-		mat[1][3] = 0;
-
-		mat[2][0] = (right + left) / (right - left);
-		mat[2][1] = (top + bottom) / (top - bottom);
-		mat[2][2] = -(far + near) / (far - near);
-		mat[2][3] = -1;
-
+		mat[2][0] = 0;
 		mat[3][0] = 0;
+
+		mat[0][1] = 0;
+		mat[1][1] = 2 * near / (top - bottom);
+		mat[2][1] = 0;
 		mat[3][1] = 0;
-		mat[3][2] = -2 * far * near / (far - near);
+
+		mat[0][2] = (right + left) / (right - left);
+		mat[1][2] = (top + bottom) / (top - bottom);
+		mat[2][2] = -(far + near) / (far - near);
+		mat[3][2] = -1;
+
+		mat[0][3] = 0;
+		mat[1][3] = 0;
+		mat[2][3] = -2 * far * near / (far - near);
 		mat[3][3] = 0;
 /*
 		mat[0][0] = aspect_ratio * scale;
@@ -380,18 +380,18 @@ public:
 		mat[0][0] = right.x;
 		mat[0][1] = right.y;
 		mat[0][2] = right.z;
+		mat[0][3] = -right.dot_product(from);		
 
 		mat[1][0] = new_up.x;
 		mat[1][1] = new_up.y;
 		mat[1][2] = new_up.z;
+		mat[1][3] = -new_up.dot_product(from);
 
 		mat[2][0] = forward.x;
 		mat[2][1] = forward.y;
 		mat[2][2] = forward.z;
-
-		mat[0][3] = -right.dot_product(from);		
-		mat[1][3] = -new_up.dot_product(from);
 		mat[2][3] = -forward.dot_product(from);
+
 		mat[3][3] = 1.f;
 	}
 

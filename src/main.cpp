@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 12:01:46 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/28 15:31:52 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/28 17:39:30 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void controls(GLFWwindow *window, int key, int scancode, int action, int mods)
 
 int main(void)
 {
-	float	height = 600.f;
-	float	width = 800.f;
+	uint32_t	height = 600;
+	uint32_t	width = 800;
 	
 	/* Initialise the GLFW library*/
 	if (!glfwInit())
@@ -150,20 +150,15 @@ int main(void)
 	VBO1.unbind();
 	EBO1.unbind();
 
-	// Gets ID of uniform called "scale"
-	GLuint uniID = glGetUniformLocation(shader.get_id(), "scale");
-
 	// Load texture
 	texture texture("resources/textures/brick.png");
 	texture.texUnit(shader, "tex0", 0);
 
-	/* Variables for rotation of pyramid */
-	float rotation = 0.0f;
-	double prevTime = glfwGetTime();
-
 	/* Initialize depth buffer
 	Enables OpenGL to figure out depth*/
 	glEnable(GL_DEPTH_TEST);
+
+	camera camera(width, height, vec3f(0.f, 0.f, 2.f));
 
 	/* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -178,51 +173,9 @@ int main(void)
 		// Tell OpenGL which Shader Program we want to use
 		shader.bind();
 
-		/* Simple timer that shouild add 0.5 degrees of rotation 60 times a second*/
-		double	crntTime = glfwGetTime();
-		if (crntTime - prevTime >= 1 / 60)
-		{
-			rotation += 0.5f;
-			prevTime = crntTime;
-		}
+		camera.inputs(window);
+		camera.matrix(45.f, 0.1f, 100.f, shader, "camMatrix");
 
-		/* Initialize Matrices for model space, camera and projection matrix */
-		mat4x4f	model;
-		mat4x4f	view;
-		mat4x4f	proj;
-
-		/* define axis for axis angle rotation */
-		vec3f	axis(0.0f, 1.0f, 0.0f);
-		quaternion<float>	rot_mat;
-
-		/* Define field of view in radians */
-		float	fov = deg_to_rad(45.0f);
-
-		/* Degrees to radians for rotationa matrix */
-		float	rad_rotation = deg_to_rad(rotation);
-		
-		/* create rotation matrix with quaternions */
-		model = rot_mat.rotation_matrix(axis, rad_rotation);
-		//view.translate((vec3f){0.0f, -0.5f, -2.0f});
-		vec3f	position	= vec3f(0.f, 0.f, 2.f);
-		vec3f	orientation	= vec3f(0.f, 0.f, -1.f);
-		vec3f	up			= vec3f(0.f, 1.f, 0.f);
-		view.lookat(position, position + orientation, up);
-		proj.perspective((float)(width / height), 0.1f, 100.0f, fov);
-
-		int model_loc;
-		GLCall(model_loc = glGetUniformLocation(shader.get_id(), "model"));
-		GLCall(glUniformMatrix4fv(model_loc, 1, GL_FALSE, &model[0][0]));
-		int view_loc;
-		GLCall(view_loc = glGetUniformLocation(shader.get_id(), "view"));
-		GLCall(glUniformMatrix4fv(view_loc, 1, GL_TRUE, &view[0][0]));
-		int proj_loc;
-		GLCall(proj_loc = glGetUniformLocation(shader.get_id(), "proj"));
-		GLCall(glUniformMatrix4fv(proj_loc, 1, GL_FALSE, &proj[0][0]));
-
-
-		// Assigns a value to the uniform; NOTE: Must always be done after activating the Shader Program
-		glUniform1f(uniID, 0.5f);
 		texture.bind();
 		// Bind the VAO so OpenGL knows to use it
 		VAO1.bind();
