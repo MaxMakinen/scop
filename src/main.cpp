@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 12:01:46 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/24 16:43:51 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/02/28 15:31:52 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,23 @@
 #include "texture.hpp"
 #include "vector.hpp"
 #include "mesh.hpp"
+#include "quaternion.hpp"
+#include "camera.hpp"
+
+/*
+Pre-calculated M_PI / 180 as 0.01745329251 for deg_to_rad: 'deg * (M_PI / 180)'
+*/
+template<typename T>
+T deg_to_rad( T deg) 
+{
+	return ( deg * 0.01745329251f );
+}
+
+template<typename T>
+T rad_to_deg( T rad)
+{
+	return ( rad * M_PI / 180 );
+}
 
 void controls(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
@@ -73,7 +90,7 @@ int main(void)
 	GLCall(glViewport(0, 0, width, height));
 
 	/* Set framerate */
-	//glfwSwapInterval(30);
+	//glfwSwapInterval(1);
 
 	/* Set keyboard controls */
 	glfwSetKeyCallback(window, controls);
@@ -140,19 +157,28 @@ int main(void)
 	texture texture("resources/textures/brick.png");
 	texture.texUnit(shader, "tex0", 0);
 
+	/* Variables for rotation of pyramid */
 	float rotation = 0.0f;
 	double prevTime = glfwGetTime();
+
+	/* Initialize depth buffer
+	Enables OpenGL to figure out depth*/
+	glEnable(GL_DEPTH_TEST);
 
 	/* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
 		// Specify the color of the background
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+
 		// Clean the back buffer and assign the new color to it
-		glClear(GL_COLOR_BUFFER_BIT);
+		//Now also clean the depth buffer after enabling depth test
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 		// Tell OpenGL which Shader Program we want to use
 		shader.bind();
-	
+
+		/* Simple timer that shouild add 0.5 degrees of rotation 60 times a second*/
 		double	crntTime = glfwGetTime();
 		if (crntTime - prevTime >= 1 / 60)
 		{
@@ -160,14 +186,29 @@ int main(void)
 			prevTime = crntTime;
 		}
 
+		/* Initialize Matrices for model space, camera and projection matrix */
 		mat4x4f	model;
 		mat4x4f	view;
 		mat4x4f	proj;
-		vec3f	axis(0.0f, 1.0f, 0.0f);
 
-	//	model.rotate(rotation, axis);
-		view.translate((vec3f){0.0f, -0.5f, -2.0f});
-		proj.perspective((float)height, (float)width, 0.1f, 100.0f, 45.f);
+		/* define axis for axis angle rotation */
+		vec3f	axis(0.0f, 1.0f, 0.0f);
+		quaternion<float>	rot_mat;
+
+		/* Define field of view in radians */
+		float	fov = deg_to_rad(45.0f);
+
+		/* Degrees to radians for rotationa matrix */
+		float	rad_rotation = deg_to_rad(rotation);
+		
+		/* create rotation matrix with quaternions */
+		model = rot_mat.rotation_matrix(axis, rad_rotation);
+		//view.translate((vec3f){0.0f, -0.5f, -2.0f});
+		vec3f	position	= vec3f(0.f, 0.f, 2.f);
+		vec3f	orientation	= vec3f(0.f, 0.f, -1.f);
+		vec3f	up			= vec3f(0.f, 1.f, 0.f);
+		view.lookat(position, position + orientation, up);
+		proj.perspective((float)(width / height), 0.1f, 100.0f, fov);
 
 		int model_loc;
 		GLCall(model_loc = glGetUniformLocation(shader.get_id(), "model"));
@@ -177,7 +218,7 @@ int main(void)
 		GLCall(glUniformMatrix4fv(view_loc, 1, GL_TRUE, &view[0][0]));
 		int proj_loc;
 		GLCall(proj_loc = glGetUniformLocation(shader.get_id(), "proj"));
-		GLCall(glUniformMatrix4fv(proj_loc, 1, GL_TRUE, &proj[0][0]));
+		GLCall(glUniformMatrix4fv(proj_loc, 1, GL_FALSE, &proj[0][0]));
 
 
 		// Assigns a value to the uniform; NOTE: Must always be done after activating the Shader Program
@@ -191,27 +232,6 @@ int main(void)
 		glfwSwapBuffers(window);
 		// Take care of all GLFW events
 		glfwPollEvents();
-//
-//        // clear the buffers
-//		renderer.clear();
-//
-//        // draw...
-//		shader.bind();
-//		texture.bind();
-//		shader.set_uniform_4f("u_color", r, 0.3f, 0.8f, 1.0f);
-//
-//		renderer.draw(va, ib, shader);
-//
-//		if (r > 1.0f)
-//			increment = -0.05f;
-//		else if (r < 0.0f)
-//			increment = 0.05f;
-//		r += increment;
-//        // end the current frame (internally swaps the front and back buffers)
-//        glfwSwapBuffers(window);
-//
-//        /* Poll for and process events*/
-//		glfwPollEvents();
     }
 
     // Destroy window before ending program

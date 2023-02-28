@@ -6,7 +6,7 @@
 #    By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/31 15:12:35 by mmakinen          #+#    #+#              #
-#    Updated: 2023/02/24 12:44:36 by mmakinen         ###   ########.fr        #
+#    Updated: 2023/02/28 15:02:32 by mmakinen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ GLFW_B_DIR	=	dependencies/glfw-3.3.8/build
 STB_SRC		=	$(STB_DIR)/stb_image.cpp
 #SRCS		:=	$(wildcard $(SRC_DIR)/*.cpp)
 SRCS 		=	main.cpp error_handling.cpp index_buffer.cpp renderer.cpp shader.cpp \
-				texture.cpp vertex_array.cpp vertex_buffer.cpp mesh.cpp stb_image.cpp
+				texture.cpp vertex_array.cpp vertex_buffer.cpp mesh.cpp stb_image.cpp \
+				camera.cpp
 SRC			=	$(addprefix $(SRC_DIR)/,$(SRCS))
 OBJS 		=	$(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.opp, $(SRC)) $(OBJ_DIR)/stb_image.opp
 STB			=	$(OBJ_DIR)/stb_image.opp
@@ -55,13 +56,13 @@ DEPS =			$(wildcard $(INC_DIR)/%.hpp)
 all: $(NAME) | $(GLEW) $(GLFW)
 
 $(NAME): $(OBJS)
-	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
+	$(CXX) -o $@ -Iinclude $(LDFLAGS) $^ $(LDLIBS)
 
 $(OBJ_DIR)/stb_image.opp: $(STB_SRC) $(STB_DIR)/stb_image.h | $(OBJ_DIR)
-	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(LDLIBS) -c $< -o $@
+	$(CXX) -o $@ $(CPPFLAGS) $(CXXFLAGS) -c $<
 
 $(OBJ_DIR)/%.opp: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	$(CXX) $(LDFLAGS) $(CPPFLAGS) $(CXXFLAGS) $(LDLIBS) -c $< -o $@
+	$(CXX) -o $@ $(CPPFLAGS) $(CXXFLAGS) -c $<
 
 # TODO Need rules for compiling GLFW and glew from .zip and source and copy file to include and lib
 
