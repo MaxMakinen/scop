@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:37:17 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/28 18:27:21 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/03/02 15:04:12 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,19 @@ public:
 	int32_t	width;
 	int32_t	height;
 
-	bool	first_click = true;
+	bool	first_click = false;
 
-	float	speed		= 0.1f;
-	float	sensitivity	= 100.f;
+	float	speed		= 1.0f;
+	float	sensitivity	= 10.f;
+	float	current_time;
+	float	old_time;
 
 	camera(int32_t width, int32_t height, vec3f position);
 
 	void	matrix(float FOVdeg, float near_plane, float far_plane, shader &shader, const char *uniform);
 	void	inputs(GLFWwindow *window);
+	float	elapsed_time();
+
 };
 
 #endif

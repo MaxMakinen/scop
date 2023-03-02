@@ -6,7 +6,7 @@
 /*   By: mmakinen <mmakinen@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:01:05 by mmakinen          #+#    #+#             */
-/*   Updated: 2023/02/28 17:29:04 by mmakinen         ###   ########.fr       */
+/*   Updated: 2023/03/02 14:40:57 by mmakinen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -401,6 +401,37 @@ public:
 		mat[1][3] += vec.y;
 		mat[2][3] += vec.z;
 	}
+
+	void make_rotate_x(float angle_rad)
+	{
+		mat[0][0] = 1.0f;
+		mat[1][1] = cosf(angle_rad);
+		mat[1][2] = sinf(angle_rad);
+		mat[2][1] = -sinf(angle_rad);
+		mat[2][2] = cosf(angle_rad);
+		mat[3][3] = 1.0f;
+	}
+
+	void make_rotate_y(float angle_rad)
+	{
+		mat[0][0] = cosf(angle_rad);
+		mat[0][2] = sinf(angle_rad);
+		mat[2][0] = -sinf(angle_rad);
+		mat[1][1] = 1.0f;
+		mat[2][2] = cosf(angle_rad);
+		mat[3][3] = 1.0f;
+	}
+	
+	void make_rotate_z(float angle_rad)
+	{
+		mat[0][0] = cosf(angle_rad);
+		mat[0][1] = sinf(angle_rad);
+		mat[1][0] = -sinf(angle_rad);
+		mat[1][1] = cosf(angle_rad);
+		mat[2][2] = 1.0f;
+		mat[3][3] = 1.0f;
+	}
+	
 
 	// Accessors for use in loopes etc. Const and mutable.
 	const T* operator [] (uint8_t index) const { return (mat[index]); }
